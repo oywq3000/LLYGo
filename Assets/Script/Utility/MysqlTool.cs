@@ -11,13 +11,13 @@ namespace MysqlUtility
     
         //database info for connecting
         private static string ConnectStr
-            = "server=127.0.0.1;port=3306;database=test;user=root;password=123456";
+            = "server=127.0.0.1;port=3306;database=vrdb_1;user=root;password=123456";
         
         
-        public static string GetPassword(string name)
+        public static string GetPassword(string account)
         {
             //fixed format
-            string sql = $"select password from player where name = '{name}'";
+            string sql = $"select password from 20203233欧阳文庆_info where account = '{account}'";
     
             OpenDatabase();
            
@@ -38,10 +38,11 @@ namespace MysqlUtility
         }
     
     
-        public static bool AddPlayer(string name ,string password)
+        public static bool AddPlayer(string account ,string password,string sex,string age)
         {
             //fixed format
-            string sql = $"insert into player(name,password) values('{name}','{password}')";
+            string sql = $"insert into 20203233欧阳文庆_info(account,password,sex,age) " +
+                         $"values('{account}','{password}','{sex}',{age})";
             
             OpenDatabase();
             MySqlCommand cmd = new MySqlCommand(sql,_mySqlConnection);
