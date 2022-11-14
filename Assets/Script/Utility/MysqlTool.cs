@@ -4,7 +4,8 @@ using UnityEngine;
 
 namespace MysqlUtility
 {
-    public static class MysqlTool
+    
+    public class MysqlTool
     {
         private static MySqlConnection _mySqlConnection;
     
