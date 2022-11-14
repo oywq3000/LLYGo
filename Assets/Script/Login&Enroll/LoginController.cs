@@ -18,6 +18,8 @@ public class LoginController : MonoBehaviour
         //register button event
         transform.Find("LoginBtn").GetComponent<Button>().onClick.AddListener(Login);
         transform.Find("EnrollBtn").GetComponent<Button>().onClick.AddListener(Enroll);
+
+      
     }
 
     void Login()
