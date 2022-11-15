@@ -2,7 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using DG.Tweening;
 using MysqlUtility;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,16 +17,19 @@ public class EnrollController : MonoBehaviour
 
     private bool _nameCf = false;
     private bool _passwordCf = false;
-    private bool _ageCf = false;
+   
 
     void Start()
     {
+        
         //get input
         _nameInput = transform.Find("InputName").GetComponent<InputField>();
         _passwordInput = transform.Find("InputPassword").GetComponent<InputField>();
         _sexDropdown = transform.Find("SexDropdown").GetComponent<Dropdown>();
         _bornYearDropdown = transform.Find("BornYearDropdown").GetComponent<Dropdown>();
 
+        //initiate bornyear
+        InitiateBornYear();
         //register Input check event
         RegisterInputCheckEvent();
         //register button event
@@ -39,18 +44,21 @@ public class EnrollController : MonoBehaviour
         var myAccount = _nameInput.text;
         var myPassword = _passwordInput.text;
         var mySex = _sexDropdown.captionText.text;
-        var myAge = _sexDropdown.captionText.text;
+        var myBornYear = _bornYearDropdown.captionText.text;
 
         //format check for input stage
+        Debug.Log("Preenroll");
         if (!FormatCheck()) return;
 
+        Debug.Log("enroll");
         var password = MysqlTool.GetPassword(myAccount);
         if (password == "")
         {
             //insert the player into database
-            MysqlTool.AddPlayer(myAccount, myPassword, mySex, myAge);
+            MysqlTool.AddPlayer(myAccount, myPassword, mySex, myBornYear);
 
-            Debug.Log("enroll successfully");
+            //ease to half transparent
+            transform.GetComponent<CanvasGroup>().DOFade(0.3f, 0.5f);
         }
         else
         {
@@ -75,9 +83,13 @@ public class EnrollController : MonoBehaviour
             {
                 _nameCf = false;
 
-                tip.GetComponent<Text>().text = "账号（4到16位，字母数字下划线，减号）";
+                tip.GetComponent<Text>().text = "账号由4到16位，字母数字下划线，减号组成";
                 tip.SetActive(true);
-                
+
+                //ease appear
+                var canvasGroup = tip.GetComponent<CanvasGroup>();
+                canvasGroup.alpha = 0;
+                canvasGroup.DOFade(1, 0.3f);
             }
         });
         _passwordInput.onValueChanged.AddListener(value =>
@@ -88,8 +100,6 @@ public class EnrollController : MonoBehaviour
             if (Regex.IsMatch(value, "(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[$@!%*#?&])[A-Za-z\\d$@!%*#?&]{6,}$"))
             {
                 _passwordCf = true;
-
-              
                 tip.SetActive(false);
             }
             else
@@ -98,22 +108,39 @@ public class EnrollController : MonoBehaviour
                 
                 tip.GetComponent<Text>().text = "密码由至少由一个大写、小写和一个特色字符与数字组成";
                 tip.SetActive(true);
+                
+                //ease appear
+                var canvasGroup = tip.GetComponent<CanvasGroup>();
+                canvasGroup.alpha = 0;
+                canvasGroup.DOFade(1, 0.3f);
             }
         });
     }
 
     bool FormatCheck()
     {
-        if (_ageCf&&_passwordCf)
+        if (_nameCf&&_passwordCf)
         {
             return true;
         }
         return false;
     }
 
+    void InitiateBornYear()
+    {
+        List<Dropdown.OptionData> optionDatas = new List<Dropdown.OptionData>();
+        for (int i = 2022; i > 1500; i--)
+        {
+            optionDatas.Add(new Dropdown.OptionData(i.ToString()));
+        }
+        _bornYearDropdown.options = optionDatas;
+        _bornYearDropdown.value = 20;
+    }
+
     void Return()
     {
         gameObject.SetActive(false);
+        
         transform.parent.Find("Login").gameObject.SetActive(true);
     }
 }

@@ -38,17 +38,28 @@ namespace MysqlUtility
         }
     
     
-        public static bool AddPlayer(string account ,string password,string sex,string age)
+        public static bool AddPlayer(string account ,string password,string sex,string bornYear)
         {
             //fixed format
-            string sql = $"insert into 20203233欧阳文庆_info(account,password,sex,age) " +
-                         $"values('{account}','{password}','{sex}',{age})";
+            string sql = $"insert into 20203233欧阳文庆_info(account,password,sex,bornyear) " +
+                         $"values('{account}','{password}','{sex}',{bornYear})";
             
             OpenDatabase();
-            MySqlCommand cmd = new MySqlCommand(sql,_mySqlConnection);
-            var executeNonQuery = cmd.ExecuteNonQuery();
-            CloseDataBase();
-            return executeNonQuery != 0;
+            try
+            {
+                MySqlCommand cmd = new MySqlCommand(sql,_mySqlConnection);
+                var executeNonQuery = cmd.ExecuteNonQuery();
+                return executeNonQuery != 0;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e+"sql:"+sql);
+                CloseDataBase();
+                throw;
+            }
+          
+           
+          
         }
         
         
