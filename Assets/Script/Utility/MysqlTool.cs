@@ -49,6 +49,7 @@ namespace MysqlUtility
             {
                 MySqlCommand cmd = new MySqlCommand(sql,_mySqlConnection);
                 var executeNonQuery = cmd.ExecuteNonQuery();
+                CloseDataBase();
                 return executeNonQuery != 0;
             }
             catch (Exception e)
