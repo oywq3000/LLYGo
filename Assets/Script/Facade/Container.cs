@@ -15,17 +15,16 @@ namespace Script.Facade
 
     interface IContainer
     {
-        void Register<T>(T obj, Mode mode = Mode.Singleton) where T : class, new();
-        T GetInstance<T>() where T : class, new();
+        void Register<T>(T obj, Mode mode = Mode.Singleton) where T : class;
+        T GetInstance<T>() where T : class;
     }
     
     public class Container:IContainer
     {
         //store bean 
-        private Dictionary<Type, object> _objects;
-
-
-        public void Register<T>(T obj,Mode mode = Mode.Singleton) where T:class,new()
+        private Dictionary<Type, object> _objects  = new Dictionary<Type, object>();
+        
+        public void Register<T>(T obj,Mode mode = Mode.Singleton) where T:class
         {
             switch (mode)
             {
@@ -42,7 +41,7 @@ namespace Script.Facade
             }
         }
 
-        public T GetInstance<T>()where T:class,new()
+        public T GetInstance<T>()where T:class
         {
             if (_objects.TryGetValue(typeof(T),out object obj))
             {

@@ -1,28 +1,32 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using MysqlUtility;
+using Script.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LoginController : MonoBehaviour
+public class LoginController : AbstractUIPanel
 {
     private InputField _nameInput;
     private InputField _passwordInput;
 
-    void Start()
+    public override void OnOpen()
     {
         //get input
         _nameInput = transform.Find("InputName").GetComponent<InputField>();
         _passwordInput = transform.Find("InputPassword").GetComponent<InputField>();
 
         //register button event
-        transform.Find("LoginBtn").GetComponent<Button>().onClick.AddListener(Login);
+        transform.Find("LoginBtn").GetComponent<Button>().onClick.AddListener(EngageLogin);
         transform.Find("EnrollBtn").GetComponent<Button>().onClick.AddListener(Enroll);
-
-      
     }
 
-    void Login()
+    protected override void Onclose()
+    {
+       
+    }
+    
+    void EngageLogin()
     {
         //get input 
         var myName = _nameInput.text;
@@ -64,4 +68,7 @@ public class LoginController : MonoBehaviour
         gameObject.SetActive(false);
         transform.parent.Find("Enroll").gameObject.SetActive(true);
     }
+
+
+  
 }

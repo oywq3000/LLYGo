@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using DG.Tweening;
 using MysqlUtility;
+using Script.UI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EnrollController : MonoBehaviour
+public class EnrollController : AbstractUIPanel
 {
     private InputField _nameInput;
     private InputField _passwordInput;
@@ -18,10 +19,8 @@ public class EnrollController : MonoBehaviour
     private bool _nameCf = false;
     private bool _passwordCf = false;
    
-
-    void Start()
+    public override void OnOpen()
     {
-        
         //get input
         _nameInput = transform.Find("InputName").GetComponent<InputField>();
         _passwordInput = transform.Find("InputPassword").GetComponent<InputField>();
@@ -38,6 +37,10 @@ public class EnrollController : MonoBehaviour
         transform.Find("ReturnBtn").GetComponent<Button>().onClick.AddListener(Return);
     }
 
+    protected override void Onclose()
+    {
+    }
+    
     void Enroll()
     {
         //get input 
@@ -47,10 +50,9 @@ public class EnrollController : MonoBehaviour
         var myBornYear = _bornYearDropdown.captionText.text;
 
         //format check for input stage
-        Debug.Log("Preenroll");
+    
         if (!FormatCheck()) return;
-
-        Debug.Log("enroll");
+        
         var password = MysqlTool.GetPassword(myAccount);
         if (password == "")
         {
@@ -143,4 +145,6 @@ public class EnrollController : MonoBehaviour
         
         transform.parent.Find("Login").gameObject.SetActive(true);
     }
+
+  
 }

@@ -6,5 +6,6 @@ public class GameLifetimeScope : LifetimeScope
 {
     protected override void Configure(IContainerBuilder builder)
     {
+   
     }
 }
