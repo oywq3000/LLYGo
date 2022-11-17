@@ -15,7 +15,7 @@ public class Tips : AbstractUIPanel
         var canvasGroup = GetComponent<CanvasGroup>();
         canvasGroup.alpha = 0;
         await canvasGroup.DOFade(1, 0.5f).SetEase(Ease.Linear).ToUniTask();
-        await UniTask.Delay(TimeSpan.FromSeconds(0.5));
+        await UniTask.Delay(TimeSpan.FromSeconds(0.7));
         await canvasGroup.DOFade(0, 0.5f).SetEase(Ease.Linear).ToUniTask();
     }
 
