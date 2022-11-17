@@ -10,6 +10,8 @@ public class LoginController : AbstractUIPanel
     private InputField _nameInput;
     private InputField _passwordInput;
 
+    private IUIkit _uIkit;
+
     public override void OnOpen()
     {
         //get input
@@ -19,13 +21,15 @@ public class LoginController : AbstractUIPanel
         //register button event
         transform.Find("LoginBtn").GetComponent<Button>().onClick.AddListener(EngageLogin);
         transform.Find("EnrollBtn").GetComponent<Button>().onClick.AddListener(Enroll);
+
+        //assign
+        _uIkit = GameFacade.Instance.GetInstance<IUIkit>();
     }
 
     protected override void Onclose()
     {
-       
     }
-    
+
     void EngageLogin()
     {
         //get input 
@@ -33,7 +37,7 @@ public class LoginController : AbstractUIPanel
         var myPassword = _passwordInput.text;
 
         //check input
-        if (myName != "")
+        if (myName != "" && myPassword != "")
         {
             var password = MysqlTool.GetPassword(myName);
             if (password != "")
@@ -45,30 +49,26 @@ public class LoginController : AbstractUIPanel
                 }
                 else
                 {
-                    //todo password error
-                    Debug.Log("password error");
+                    // password error
+                    _uIkit.OpenPanel("Tips").GetComponent<Text>().text = "密码错误！";
                 }
             }
             else
             {
-                //todo not find this name from database
-                Debug.Log("not find this name from database");
+                // not find this name from database
+                _uIkit.OpenPanel("Tips").GetComponent<Text>().text = "找不到账号，请注册！";
             }
         }
         else
         {
-            //todo not string is input
+            // not string is input
 
-            Debug.Log(" not string is input");
+            _uIkit.OpenPanel("Tips").GetComponent<Text>().text = "账号或密码为空！";
         }
     }
 
     void Enroll()
     {
-        gameObject.SetActive(false);
-        transform.parent.Find("Enroll").gameObject.SetActive(true);
+        _uIkit.OpenPanel("Enroll");
     }
-
-
-  
 }

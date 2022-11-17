@@ -18,9 +18,13 @@ public class EnrollController : AbstractUIPanel
 
     private bool _nameCf = false;
     private bool _passwordCf = false;
-   
+
+    private IUIkit _uIkit;
     public override void OnOpen()
     {
+        //initiate ui tool
+        _uIkit = GameFacade.Instance.GetInstance<IUIkit>();
+        
         //get input
         _nameInput = transform.Find("InputName").GetComponent<InputField>();
         _passwordInput = transform.Find("InputPassword").GetComponent<InputField>();
@@ -50,22 +54,32 @@ public class EnrollController : AbstractUIPanel
         var myBornYear = _bornYearDropdown.captionText.text;
 
         //format check for input stage
-    
-        if (!FormatCheck()) return;
+
+        if (!FormatCheck())
+        {
+            _uIkit.OpenPanel("Tips").GetComponent<Text>().text = "账号或密码格式错误！";
+            return;
+        }
+         
         
         var password = MysqlTool.GetPassword(myAccount);
         if (password == "")
         {
             //insert the player into database
             MysqlTool.AddPlayer(myAccount, myPassword, mySex, myBornYear);
-
-            //ease to half transparent
-            transform.GetComponent<CanvasGroup>().DOFade(0.3f, 0.5f);
+            
+            //register successfully
+            var openPanel = _uIkit.OpenPanel("Tips");
+            openPanel.GetComponent<Text>().text = "注册成功！";
+            openPanel.GetComponent<Tips>().SetColorOnce(Color.green);
+            
+            //close this panel
+            _uIkit.ClosePanel(gameObject);
         }
         else
         {
-            //todo this name is already enrolled
-            Debug.Log("this account is already enrolled");
+            //this name is already enrolled
+            _uIkit.OpenPanel("Tips").GetComponent<Text>().text = "改账号已经被注册！";
         }
     }
 
@@ -141,9 +155,7 @@ public class EnrollController : AbstractUIPanel
 
     void Return()
     {
-        gameObject.SetActive(false);
-        
-        transform.parent.Find("Login").gameObject.SetActive(true);
+        _uIkit.ClosePanel(gameObject);
     }
 
   

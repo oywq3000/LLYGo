@@ -40,7 +40,7 @@ public class SceneStateController
             //update current scene state
             _sceneState = state;
             //loading directly
-            await Addressables.LoadSceneAsync(_sceneState.SceneName);
+           await Addressables.LoadSceneAsync(_sceneState.SceneName);
             _sceneState.StateStart();
         }
 
@@ -57,12 +57,5 @@ public class SceneStateController
             _sceneState?.StateUpdate();
         }
     }
-
-
-    void LoadingScene()
-    {
-        var asyncOperationHandle = Addressables.LoadSceneAsync("Loading");
-        var loadSceneAsync = Addressables.LoadSceneAsync(_sceneState.SceneName, LoadSceneMode.Single, false);
-        var percentComplete = loadSceneAsync.PercentComplete;
-    }
+    
 }
