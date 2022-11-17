@@ -54,9 +54,6 @@ public class GameFacade : MonoBehaviour
 
         
          #endregion
-
-         Debug.Log("Register completely");
-
      }
      
      

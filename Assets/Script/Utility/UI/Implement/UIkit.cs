@@ -5,6 +5,12 @@ using UnityEngine;
 
 namespace Script.UI
 {
+
+  public enum UILayer
+    {
+        Common,
+        Pop
+    }
     public class UIkit:IUIkit
     {
         private IGameObjectPool _gameObjectPool;
@@ -18,21 +24,44 @@ namespace Script.UI
             _gameObjectPool = gameObjectPool;
         }
 
-        public void OpenPanel(string key)
+        public GameObject OpenPanel(string key,UILayer layer = UILayer.Common,bool canDuplicate = false)
         {
-            var gameObject = _gameObjectPool.Dequeue(key);
 
-            try
+            GameObject gameObject;
+            if (!canDuplicate)
             {
-                //store opened panel 
-                _openedUiPanel.Add(key, gameObject);
+                if (_openedUiPanel.TryGetValue(key,out GameObject obj))
+                {
+                    var uiPanel = obj.GetComponent<IUIPanel>();
+                    if (!uiPanel.isOnOpen)
+                    {
+                        //if this panel is not opened than init it
+                        uiPanel.Init();
+                    }
+
+                    gameObject = obj;
+                }
+                else
+                {
+                     gameObject = _gameObjectPool.Dequeue(key);
+                    _openedUiPanel.Add(key,gameObject);
+                    gameObject.GetComponent<IUIPanel>().SetUILayer(layer);
+                }
             }
-            catch (Exception e)
+            else
             {
-                Console.WriteLine(e);
-                throw;
+                 gameObject = _gameObjectPool.Dequeue(key);
+
+                if ( !_openedUiPanel.ContainsKey(key))
+                {
+                    _openedUiPanel.Add(key,gameObject);
+                }
+                gameObject.GetComponent<IUIPanel>().SetUILayer(layer);
             }
-           
+
+
+            return gameObject;
+
         }
 
         public void ClosePanel(GameObject obj)
@@ -42,7 +71,7 @@ namespace Script.UI
                 _gameObjectPool.Enqueue(obj);
 
                 //remove from opened panel list of panel
-                _openedUiPanel.Remove(obj.name.TrimEnd("(Clone)".ToCharArray()));
+                _openedUiPanel.Remove(obj.name);
             }
             catch (Exception e)
             {

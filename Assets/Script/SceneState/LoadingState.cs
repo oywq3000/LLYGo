@@ -22,17 +22,19 @@ public class LoadingState : ISceneState
     private Text _processText;
     
     private float _waitTime = 0;
-    private float _totallTime = 2;
+    private float _totallTime = 1.5f;
 
     public override void StateStart()
     {
-        base.StateStart();
+        
         _loadBar = GameObject.Find("Canvas/LoadingPanel/Slider").GetComponent<Image>();
         _processText = GameObject.Find("Canvas/LoadingPanel/ProcessText").GetComponent<Text>();
         
         
         //background loading 
         _asyncOperationHandle = Addressables.LoadSceneAsync(_targetScene, LoadSceneMode.Single, false);
+        
+        base.StateStart();
     }
 
     
@@ -42,18 +44,29 @@ public class LoadingState : ISceneState
     public override void StateUpdate()
     {
         base.StateUpdate();
-        
-        Debug.Log("loading");
-        
-        
-        _loadBar.fillAmount = _asyncOperationHandle.PercentComplete;
 
-        _processText.text = _asyncOperationHandle.PercentComplete + "%";
+        if (_loadBar&&_processText)
+        {
+            _loadBar.fillAmount = _waitTime/_totallTime;
         
-        if ( _asyncOperationHandle.IsDone)
+            _processText.text = (int)(_waitTime/_totallTime*100)+ "%";
+        }
+        if (_asyncOperationHandle.PercentComplete< _waitTime/_totallTime)
+        {
+            //when current progress bar is faster than actual PercentComplete
+            //show it via assigning actual PercentComplete to it and stopping it increment
+            _waitTime = _asyncOperationHandle.PercentComplete*_totallTime;
+        }
+        else
+        {
+            _waitTime += Time.deltaTime;
+        }
+        
+        
+        if ( _asyncOperationHandle.IsDone&&_waitTime>_totallTime)
         {
             //entry game scene
-            _asyncOperationHandle.Result.ActivateAsync();
+           _asyncOperationHandle.Result.ActivateAsync();
         }
     }
 }

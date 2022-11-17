@@ -37,8 +37,7 @@ namespace Script.AssetFactory
                 //trim the redundant "(Clone)" for GameObject
                 _disableObjects.Add(gameObject.name, newQueue);
             }
-
-            PrintDictionary();
+            
         }
         
         public GameObject Dequeue(string key)
