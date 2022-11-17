@@ -479,6 +479,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Login
       objectReference: {fileID: 0}
+    - target: {fileID: 7271735425802058259, guid: 80877dcf654df864c836b4ae9fc7e7ff,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 80877dcf654df864c836b4ae9fc7e7ff, type: 3}
 --- !u!1 &1055743611
@@ -578,6 +583,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Enroll
+      objectReference: {fileID: 0}
+    - target: {fileID: 5279496059943901831, guid: 1aef37bf1918e824b9add50aabe78cf1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5279496059943901832, guid: 1aef37bf1918e824b9add50aabe78cf1,
         type: 3}

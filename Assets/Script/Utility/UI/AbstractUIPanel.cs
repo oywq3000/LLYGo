@@ -60,12 +60,7 @@ namespace Script.UI
 
             isOnOpen = false;
             
-            Debug.Log("Disable");
             await DefaultPreClose();
-            
-            Debug.Log("Close");
-            
-            
             
             gameObject.SetActive(false);
            
