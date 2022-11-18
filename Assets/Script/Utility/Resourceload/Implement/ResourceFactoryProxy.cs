@@ -1,9 +1,7 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
 using Script.Abstract;
 using UnityEngine;
-using UnityEngine.XR.WSA.Input;
-using Object = UnityEngine.Object;
 
 
 namespace Script.AssetFactory
@@ -13,7 +11,8 @@ namespace Script.AssetFactory
         private IAssetFactory _resourceFactory;
 
         private Dictionary<string, Queue<GameObject>> _disableObjects = new Dictionary<string, Queue<GameObject>>();
-        
+
+        private List<string> _loadedAssetKeys = new List<string>();
         public ResourceFactoryProxy(IAssetFactory resourceFactory)
         {
             _resourceFactory = resourceFactory;
@@ -55,6 +54,9 @@ namespace Script.AssetFactory
                     //if the gameobjects in GameObject Pool are exhausted, load it
                     //note: you do not need put it into pool cause the pool is for disabled GameObject
                     gameObject = _resourceFactory.InstantiateGameObject(key);
+                    
+                    //record this asset key
+                    _loadedAssetKeys.Add(key);
                 }
             }
             else
@@ -62,6 +64,9 @@ namespace Script.AssetFactory
                 //if not found, load it
                 //note: you do not need put it into pool cause the pool is for disabled GameObject
                 gameObject = _resourceFactory.InstantiateGameObject(key);
+                
+                //record this asset key
+                _loadedAssetKeys.Add(key);
             }
             
             //naming this game object
@@ -73,7 +78,7 @@ namespace Script.AssetFactory
         }
 
         //clean all of GameObject Pool and cache of reference
-        public void Release()
+        public void ReleaseAll()
         {
             foreach (var keyValuePair in _disableObjects)
             {
@@ -81,9 +86,16 @@ namespace Script.AssetFactory
                 {
                     GameObject.Destroy(keyValuePair.Value.Dequeue());
                 }
+                _resourceFactory.Release(keyValuePair.Key);
+                
+                _loadedAssetKeys.Remove(keyValuePair.Key);
             }
 
-            _resourceFactory.Release();
+            //to confirm all loaded asset references are released
+            foreach (var VARIABLE in _loadedAssetKeys)
+            {
+                _resourceFactory.Release(VARIABLE);
+            }
         }
 
         void PrintDictionary()

@@ -1,12 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using Script.SceneState;
+using SceneStateRegion;
 using UnityEngine;
 
 public class GameLoop : MonoBehaviour
 {
-    private SceneStateController _controller;
+    public SceneStateController Controller;
 
     public static GameLoop Instance;
 
@@ -14,35 +14,26 @@ public class GameLoop : MonoBehaviour
 
     private void Awake()
     {
+        var find = GameObject.Find("GameLoop");
         //avoid the generate the same object
-        if (GameObject.Find("GameLoop") != this.gameObject)
+        if (find != null && find != this.gameObject)
         {
             Destroy(this.gameObject);
         }
 
+        Controller = new SceneStateController();
         Instance = this;
         DontDestroyOnLoad(this.gameObject);
     }
-
-    private void Start()
-    {
-        _controller = new SceneStateController();
-
-        //entry a start scene without loading
-        _controller.SetState(new StartSceneState(_controller), false, true).Forget();
-        
-        
-    }
-
+    
     private void FixedUpdate()
     {
         //different state need different data
-        _controller?.StateUpdate();
+        Controller?.StateUpdate();
     }
 
 
     //provide tool for GamaObject for current scene state
-
     public void Set(bool senecStateInit)
     {
         _senecStateInit = senecStateInit;

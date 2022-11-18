@@ -14,7 +14,6 @@ public class UIMgr : MonoBehaviour
         //await this scene initiation synchronously
         await GameLoop.Instance.Setup();
         
-        Debug.Log("UikitStart");
         _uIkit = GameFacade.Instance.GetInstance<IUIkit>();
         
         

@@ -1,21 +1,27 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
+using Cysharp.Threading.Tasks;
+using SceneStateRegion;
 using UnityEngine;
 
 /// <summary>
-/// This class is for simulating scene start and start the first scene
+/// This class is for simulating scene start and start the current scene
+/// you should disable it's GameObject when you complete this scene test
 /// </summary>
 public class SceneBoot : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public string stateName ;
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        if (stateName!="")
+        {
+            //Boot different SceneState with given name by reflection 
+            Type type = Type.GetType("SceneStateRegion." + stateName+"State");
+            var instance = Activator.CreateInstance(type,GameLoop.Instance.Controller)as AbstractState;
+            GameLoop.Instance.Controller.SetState(instance,false,true).Forget();
+        }
     }
 }

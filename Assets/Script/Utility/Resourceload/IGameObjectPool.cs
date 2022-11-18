@@ -7,6 +7,6 @@ namespace Script.Abstract
     {
          void Enqueue(GameObject obj);
          GameObject Dequeue(string key);
-         void Release();
+         void ReleaseAll();
     }
 }

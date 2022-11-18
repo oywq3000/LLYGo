@@ -12,8 +12,6 @@ namespace Script.UI
         //provide a attribute outside to signify whether this panel is open?
         public bool isOnOpen { get; set; } = false;
 
-        private CanvasGroup _canvasGroup;
-
         public virtual async void Init()
         {
             //initiate variable
@@ -31,14 +29,14 @@ namespace Script.UI
 
         protected virtual async UniTask DefaultPreOpen()
         {
-            _canvasGroup = GetComponent<CanvasGroup>();
-            _canvasGroup.alpha = 0;
-            await _canvasGroup.DOFade(1, 0.5f).SetEase(Ease.Linear).ToUniTask();
+            var canvasGroup = GetComponent<CanvasGroup>();
+            canvasGroup.alpha = 0;
+            await canvasGroup.DOFade(1, 0.5f).SetEase(Ease.Linear).ToUniTask();
         }
 
         protected virtual async UniTask DefaultPreClose()
         {
-            await _canvasGroup.DOFade(0, 0.3f).SetEase(Ease.Linear).ToUniTask();
+            await GetComponent<CanvasGroup>().DOFade(0, 0.3f).SetEase(Ease.Linear).ToUniTask();
         }
 
         public void SetUILayer(UILayer layer)
@@ -57,13 +55,9 @@ namespace Script.UI
         public virtual async void Disable()
         {
             Onclose();
-
-            isOnOpen = false;
-            
             await DefaultPreClose();
-            
             gameObject.SetActive(false);
-           
+            isOnOpen = false;
         }
 
 

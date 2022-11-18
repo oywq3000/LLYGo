@@ -1,6 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
+﻿
+using SceneStateRegion;
+using Script.Event;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -8,7 +8,7 @@ using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class LoadingState : ISceneState
+public class LoadingState : AbstractState
 {
     private string _targetScene;
     private AsyncOperationHandle<SceneInstance> _asyncOperationHandle;
@@ -69,4 +69,5 @@ public class LoadingState : ISceneState
            _asyncOperationHandle.Result.ActivateAsync();
         }
     }
+    
 }

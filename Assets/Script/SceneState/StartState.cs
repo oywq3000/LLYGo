@@ -1,22 +1,27 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using SceneStateRegion;
+using Script.Event;
+using Script.Facade;
 using Script.UI;
+using UnityEditorInternal;
 using UnityEngine;
 
-namespace Script.SceneState
+namespace SceneStateRegion
 {
-    public class StartSceneState:ISceneState
+    public class StartState:AbstractState
     {
         private IUIkit _uIkit;
+        private IEventHolder _eventHolder;
         
         //Introduction panel 
         private CanvasGroup _introductionPanel;
-        public StartSceneState(SceneStateController stateController) : base("Start", stateController)
+        public StartState(SceneStateController stateController) : base("Start", stateController)
         {
         }
 
-        public async override void StateStart()
+        public  override  void StateStart()
         {
             #region ShowIntroduction
 
@@ -34,10 +39,13 @@ namespace Script.SceneState
             _uIkit = GameFacade.Instance.GetInstance<IUIkit>();
             _uIkit.OpenPanel("Login");
             
+            //register event
+           
+
             //for synchronize scene
             base.StateStart();
         }
-
+        
         public override void StateUpdate()
         {
             if (Input.GetKeyDown(KeyCode.R))
@@ -45,5 +53,6 @@ namespace Script.SceneState
                 StateController.SetState(new MainState(StateController)).Forget();
             }
         }
+        
     }
 }
