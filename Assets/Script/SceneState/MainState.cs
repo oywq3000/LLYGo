@@ -1,18 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using SceneStateRegion;
+using Script.Event;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MainState : ISceneState
+namespace SceneStateRegion
 {
-    public MainState(SceneStateController stateController) : base("Main", stateController)
+    public class MainState : AbstractState
     {
-    }
+        public MainState(SceneStateController stateController) : base("Main", stateController)
+        {
+        }
 
 
-    public override void StateUpdate()
-    {
+        public override void StateUpdate()
+        { 
+            Debug.Log("Main");
+        }
         
     }
 }
+

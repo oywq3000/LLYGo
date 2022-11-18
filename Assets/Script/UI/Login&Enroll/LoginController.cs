@@ -1,6 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using MysqlUtility;
+using SceneStateRegion;
+using Script.Event;
+using Script.Facade;
 using Script.UI;
 using UnityEngine;
 using UnityEngine.UI;
@@ -44,7 +48,7 @@ public class LoginController : AbstractUIPanel
             {
                 if (password == myPassword)
                 {
-                    //todo login successfully
+                    GameLoop.Instance.Controller.SetState(new MainState(GameLoop.Instance.Controller)).Forget();
                     Debug.Log("login successfully");
                 }
                 else

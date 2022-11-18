@@ -45,9 +45,19 @@ public class ResourceFactory:IAssetFactory
             return GameObject.Instantiate(waitForCompletion);
         }
     }
-    
+
+    //separate release
+    public void Release(string key)
+    {
+        if (_assetCache.TryGetValue(key,out Object obj))
+        {
+            Addressables.Release(obj);
+            _assetCache.Remove(key);
+        }
+    }
+
     //clean all cache
-    public void Release()
+    public void ReleaseAll()
     {
         //release by addressables
         foreach (var VARIABLE in _assetCache)
@@ -58,6 +68,8 @@ public class ResourceFactory:IAssetFactory
         //clear cache
         _assetCache.Clear();
     }
+    
+ 
 
 
 }

@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using SceneStateRegion;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
@@ -6,25 +7,24 @@ using UnityEngine.SceneManagement;
 public class SceneStateController
 {
     //scene current state
-    private ISceneState _sceneState;
+    private AbstractState _abstractState;
 
     //await scene loading 
     private bool _canUpdate = false;
 
     //set scene state
-    public async UniTask SetState(ISceneState state, bool isLoadScene = true,bool isfirst = false)
+    public async UniTask SetState(AbstractState state, bool isLoadScene = true,bool isfirst = false)
     {
         _canUpdate = false;
 
         //if not first then release the lasted state
-        _sceneState?.StateEnd();
+        _abstractState?.StateEnd();
 
         if (isfirst)
         {
             //if this scene is first of whole game than don't load scene
-            _sceneState = state;
-            _sceneState.StateStart();
-
+            _abstractState = state;
+            _abstractState.StateStart();
             _canUpdate = true;
             return;
         }
@@ -38,10 +38,10 @@ public class SceneStateController
         else
         {
             //update current scene state
-            _sceneState = state;
+            _abstractState = state;
             //loading directly
-           await Addressables.LoadSceneAsync(_sceneState.SceneName);
-            _sceneState.StateStart();
+           await Addressables.LoadSceneAsync(_abstractState.SceneName);
+            _abstractState.StateStart();
         }
 
         _canUpdate = true;
@@ -54,7 +54,7 @@ public class SceneStateController
     {
         if (_canUpdate)
         {
-            _sceneState?.StateUpdate();
+            _abstractState?.StateUpdate();
         }
     }
     

@@ -58,8 +58,6 @@ namespace Script.UI
                 }
                 gameObject.GetComponent<IUIPanel>().SetUILayer(layer);
             }
-
-
             return gameObject;
 
         }
@@ -104,7 +102,7 @@ namespace Script.UI
         {
             _openedUiPanel.Clear();
             
-            _gameObjectPool.Release();
+            _gameObjectPool.ReleaseAll();
         }
     }
 }

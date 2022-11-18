@@ -10,6 +10,9 @@ public interface IAssetFactory
    //load and Instantiate GameObject
    GameObject InstantiateGameObject(string key);
 
-   //release the cached 
-   void Release();
+   //release the cached by key
+   void Release(string key);
+   
+   //release all cache
+   void ReleaseAll();
 }
