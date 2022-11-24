@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using _core.Script.Bag.ScriptableObj.Item;
 using PlayerRegion;
 using Script.Event;
 using UnityEngine;
@@ -57,10 +58,12 @@ namespace _core.Script.Bag
                 var index = eventData.pointerCurrentRaycast.gameObject.transform.parent.GetComponent<Index>()
                     .GetIndex();
                     
-                if ( _bagItemList[index].itemName ==_bagItemList[_originalParent.GetComponent<Index>().GetIndex()].itemName)
+                if ( !_bagItemList[index].isEquip &&!_bagItemList[_originalParent.GetComponent<Index>().GetIndex()].isEquip&&
+                     _bagItemList[index].itemName ==_bagItemList[_originalParent.GetComponent<Index>().GetIndex()].itemName)
                 {
+                    //if both are normal item merge them
                     var temp = _bagItemList[_originalParent.GetComponent<Index>().GetIndex()];
-                    _bagItemList[index].count += temp.count;
+                  ( (NormalItem) _bagItemList[index]).count += ((NormalItem)temp).count;
                     _bagItemList[_originalParent.GetComponent<Index>().GetIndex()] = null;
                     //destroy self
                     Destroy(gameObject);
