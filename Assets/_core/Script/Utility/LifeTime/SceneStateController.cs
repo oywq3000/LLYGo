@@ -1,4 +1,5 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System;
+using Cysharp.Threading.Tasks;
 using SceneStateRegion;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -13,7 +14,7 @@ public class SceneStateController
     private bool _canUpdate = false;
 
     //set scene state
-    public async UniTask SetState(AbstractState state, bool isLoadScene = true,bool isfirst = false)
+    public async UniTask SetState(AbstractState state, bool isLoadScene = true, bool isfirst = false)
     {
         _canUpdate = false;
 
@@ -28,25 +29,31 @@ public class SceneStateController
             _canUpdate = true;
             return;
         }
-        
+
         //judge if load scene
         if (isLoadScene)
         {
             //entry loading scene
-            await this.SetState(new LoadingState(this, state.SceneName), false);
+            await this.SetState(new LoadingState(this, state), false);
         }
         else
         {
             //update current scene state
             _abstractState = state;
             //loading directly
-           await Addressables.LoadSceneAsync(_abstractState.SceneName);
+
+            Debug.Log("LoadSence");
+            var asyncOperationHandle = Addressables.LoadSceneAsync(_abstractState.SceneName);
+            
+            //wait for this scene loaded complete
+            await UniTask.WaitUntil(()=>asyncOperationHandle.IsDone);
             _abstractState.StateStart();
         }
 
         _canUpdate = true;
     }
 
+    // ReSharper disable Unity.PerformanceAnalysis
     /// <summary>
     /// current state real time update
     /// </summary>
@@ -57,5 +64,4 @@ public class SceneStateController
             _abstractState?.StateUpdate();
         }
     }
-    
 }

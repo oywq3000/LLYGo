@@ -16,13 +16,12 @@ namespace Script.UI
         {
             //initiate variable
             isOnOpen = true;
-
-
+            
             //call for every loads
             gameObject.SetActive(true);
 
             await DefaultPreOpen();
-
+            
             OnOpen();
         }
 
@@ -38,20 +37,7 @@ namespace Script.UI
         {
             await GetComponent<CanvasGroup>().DOFade(0, 0.3f).SetEase(Ease.Linear).ToUniTask();
         }
-
-        public void SetUILayer(UILayer layer)
-        {
-            transform.SetParent(GameObject.Find($"UIRoot/{layer.ToString()}").transform);
-
-            if (_isFirstLoad)
-            {
-                transform.localPosition = Vector3.zero;
-                transform.localScale = Vector3.one;
-                _isFirstLoad = false;
-            }
-        }
-
-
+        
         public virtual async void Disable()
         {
             Onclose();
@@ -61,6 +47,11 @@ namespace Script.UI
         }
 
 
+        protected void CloseSelf()
+        {
+            GameFacade.Instance.GetInstance<IUIkit>().ClosePanel(gameObject);
+        }
+        
         public abstract void OnOpen();
 
 

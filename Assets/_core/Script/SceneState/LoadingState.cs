@@ -1,4 +1,5 @@
 ﻿
+using Cysharp.Threading.Tasks;
 using SceneStateRegion;
 using Script.Event;
 using UnityEngine;
@@ -10,19 +11,21 @@ using UnityEngine.UI;
 
 public class LoadingState : AbstractState
 {
-    private string _targetScene;
+    private AbstractState _targetState;
     private AsyncOperationHandle<SceneInstance> _asyncOperationHandle;
     
-    public LoadingState(SceneStateController stateController,string targetScene) : base("Loading", stateController)
+    public LoadingState(SceneStateController stateController,AbstractState targetState) : base("Loading", stateController)
     {
-        _targetScene = targetScene;
+        _targetState = targetState;
+        
     }
 
     private Image _loadBar;
     private Text _processText;
     
     private float _waitTime = 0;
-    private float _totallTime = 1.5f;
+    private float _totalTime = 1.5f;
+    private bool _isLoadingCompleted = false;
 
     public override void StateStart()
     {
@@ -32,7 +35,7 @@ public class LoadingState : AbstractState
         
         
         //background loading 
-        _asyncOperationHandle = Addressables.LoadSceneAsync(_targetScene, LoadSceneMode.Single, false);
+        _asyncOperationHandle = Addressables.LoadSceneAsync(_targetState.SceneName, LoadSceneMode.Single, false);
         
         base.StateStart();
     }
@@ -47,27 +50,40 @@ public class LoadingState : AbstractState
 
         if (_loadBar&&_processText)
         {
-            _loadBar.fillAmount = _waitTime/_totallTime;
+            _loadBar.fillAmount = _waitTime/_totalTime;
         
-            _processText.text = (int)(_waitTime/_totallTime*100)+ "%";
+            _processText.text = (int)(_waitTime/_totalTime*100)+ "%";
         }
-        if (_asyncOperationHandle.PercentComplete< _waitTime/_totallTime)
+        if (_asyncOperationHandle.PercentComplete< _waitTime/_totalTime)
         {
             //when current progress bar is faster than actual PercentComplete
             //show it via assigning actual PercentComplete to it and stopping it increment
-            _waitTime = _asyncOperationHandle.PercentComplete*_totallTime;
+            _waitTime = _asyncOperationHandle.PercentComplete*_totalTime;
         }
         else
         {
             _waitTime += Time.deltaTime;
         }
         
-        
-        if ( _asyncOperationHandle.IsDone&&_waitTime>_totallTime)
+        //if the scene load completed in background
+        if ( _asyncOperationHandle.IsDone&&_waitTime>_totalTime)
         {
-            //entry game scene
-           _asyncOperationHandle.Result.ActivateAsync();
+            if (!_isLoadingCompleted)
+            {
+                //start activate thread 
+                ActivateTargetScene().Forget();
+                _isLoadingCompleted = true;
+            }
+          
         }
+    }
+
+  private async UniTask ActivateTargetScene()
+    {
+        //entry game scene
+        await UniTask.WaitUntil(() => _asyncOperationHandle.Result.ActivateAsync().isDone);
+        //truly set target state
+        StateController.SetState(_targetState, false, true).Forget();
     }
     
 }

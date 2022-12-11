@@ -26,7 +26,7 @@ public class GameLoop : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
     
-    private void FixedUpdate()
+    private void Update()
     {
         //different state need different data
         Controller?.StateUpdate();
@@ -42,8 +42,9 @@ public class GameLoop : MonoBehaviour
     public async UniTask Setup()
     {
         if (_senecStateInit) return;
-
         //await for the completion of current scene state
         await UniTask.WaitUntil(() => _senecStateInit);
+        Debug.Log("SetUp Complete");
+        
     }
 }
