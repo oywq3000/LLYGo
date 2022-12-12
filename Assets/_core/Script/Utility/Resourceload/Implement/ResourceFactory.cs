@@ -45,7 +45,7 @@ public class ResourceFactory:IAssetFactory
             return GameObject.Instantiate(waitForCompletion,parent);
         }
     }
-
+    
     //separate release
     public void Release(string key)
     {

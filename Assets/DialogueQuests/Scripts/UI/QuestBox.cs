@@ -45,9 +45,9 @@ namespace DialogueQuests
         {
             base.Start();
 
-            NarrativeManager.Get().onQuestStart += (QuestData quest) => { ShowBox(quest, "New Quest"); };
-            NarrativeManager.Get().onQuestComplete += (QuestData quest) => { ShowBox(quest, "Quest Completed!"); };
-            NarrativeManager.Get().onQuestFail += (QuestData quest) => { ShowBox(quest, "Quest Failed!"); };
+            NarrativeManager.Get().onQuestStart += (QuestData quest) => { ShowBox(quest, "新任务！"); };
+            NarrativeManager.Get().onQuestComplete += (QuestData quest) => { ShowBox(quest, "任务完成!"); };
+            NarrativeManager.Get().onQuestFail += (QuestData quest) => { ShowBox(quest, "任务失败!"); };
         }
 
         public void ShowBox(QuestData quest, string text)

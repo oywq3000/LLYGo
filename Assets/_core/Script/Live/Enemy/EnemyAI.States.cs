@@ -36,6 +36,9 @@ namespace _core.Script.Enemy
             {
                 Exp = exp
             });
+            
+            //call the delegate
+            _onDead?.Invoke();
         }
         #endregion
         #region StateMachine
@@ -126,8 +129,6 @@ namespace _core.Script.Enemy
                             break;
                     }
 
-                    Debug.Log("Walk");
-                    
                     //the player is out of the range of Enemy's view 
                     if (destination > viewRange)
                     {

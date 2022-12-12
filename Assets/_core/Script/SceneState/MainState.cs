@@ -23,7 +23,7 @@ namespace SceneStateRegion
         {
         }
 
-        public override async void StateStart()
+        public override  void StateStart()
         {
             base.StateStart();
             //load weapon bar
@@ -36,6 +36,11 @@ namespace SceneStateRegion
 
             // var gameObject = GameFacade.Instance.GetInstance<IGameObjectPool>().Dequeue("lly");
             // gameObject.GetComponent<ICharacterStatus>().InitCharacterStatus(500);
+            
+            
+            //pre load
+            Debug.Log("MainStart");
+            GameFacade.Instance.GetInstance<IGameObjectPool>().ProLoad("Explode10",5);
         }
 
         // ReSharper disable Unity.PerformanceAnalysis

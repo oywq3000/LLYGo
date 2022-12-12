@@ -13,8 +13,7 @@ namespace _core.Script.Effect
         public float speed = 30;
 
         public float duration = 5;
-
-        public AssetReferenceGameObject _explodePref;
+        
 
         private float timer = 0;
         
@@ -27,7 +26,7 @@ namespace _core.Script.Effect
             if (timer>duration)
             {
                 //instantiate GameObject
-                var dequeue = GameFacade.Instance.GetInstance<IGameObjectPool>().Dequeue(_explodePref.RuntimeKey.ToString());
+                var dequeue = GameFacade.Instance.GetInstance<IGameObjectPool>().Dequeue("Explode10");
                 dequeue.transform.position = transform.position;
                 
                 GameFacade.Instance.GetInstance<IGameObjectPool>().Enqueue(gameObject);
@@ -40,11 +39,8 @@ namespace _core.Script.Effect
         {
             if (!other.gameObject.CompareTag("Player"))
             {
-                Debug.Log("Explode!!!");
-                
                 //instantiate explode prefab
-                
-                var dequeue = GameFacade.Instance.GetInstance<IGameObjectPool>().Dequeue(_explodePref.RuntimeKey.ToString());
+                var dequeue = GameFacade.Instance.GetInstance<IGameObjectPool>().Dequeue("Explode10");
                 dequeue.transform.position = transform.position;
                 
                 //enqueue this ball

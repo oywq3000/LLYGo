@@ -121,7 +121,6 @@ public class GameFacade : MonoBehaviour
     public void SetPlayer(string account)
     {
         //Set player 
-        Debug.Log("Create Player");
         _player = new CurrentPlayer(account);
         
     }

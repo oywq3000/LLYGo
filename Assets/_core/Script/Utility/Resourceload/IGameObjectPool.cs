@@ -8,5 +8,7 @@ namespace Script.Abstract
          void Enqueue(GameObject obj);
          GameObject Dequeue(string key,Transform parent = null);
          void ReleaseAll();
+
+         void ProLoad(string key, int count);
     }
 }

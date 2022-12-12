@@ -58,7 +58,7 @@ namespace Player
         }
 
 
-        private void Update()
+        private void FixedUpdate()
         {
             if (_updatePause) return;
             Movement();

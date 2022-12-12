@@ -24,7 +24,6 @@ namespace _core.Script.Enemy
         }
         public void UpdateBloodBar(float percent)
         {
-            Debug.Log("Percent: "+percent);
             //Update BloodBar 
             _bloodBar.fillAmount = percent;
 

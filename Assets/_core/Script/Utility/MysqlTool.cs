@@ -1,9 +1,7 @@
 ﻿using System;
-
+using System.Collections.Generic;
 using System.Text;
-
 using MySql.Data.MySqlClient;
-
 using UnityEngine;
 
 
@@ -14,7 +12,7 @@ namespace MysqlUtility
         PlayerInfoTable,
         CharacterInfoTable
     }
-        
+
     //this static class must counteract the this enum above
     public static class TableSet
     {
@@ -85,39 +83,8 @@ namespace MysqlUtility
             }
         }
 
-
-        public static bool UpdateData(string[] columnNames, string[] newData, string account)
-        {
-            if (columnNames.Length != newData.Length) return false;
-            StringBuilder sql = new StringBuilder();
-            sql.Append("UPDATE 20203233欧阳文庆_info SET ");
-
-            for (int i = 0; i < columnNames.Length; i++)
-            {
-                sql.Append(columnNames[i] + "=" + newData[i] + " ");
-            }
-
-            sql.Append($"WHERE account = {account}");
-
-
-            OpenDatabase();
-            try
-            {
-                MySqlCommand cmd = new MySqlCommand(sql.ToString(), _mySqlConnection);
-                var executeNonQuery = cmd.ExecuteNonQuery();
-                CloseDataBase();
-                return executeNonQuery != 0;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e + "sql:" + sql);
-                CloseDataBase();
-                return false;
-            }
-        }
-
-
-        public static T GetInfoByKey<T>(string key, DatabaseTable databaseTable = DatabaseTable.PlayerInfoTable) where T : new()
+        public static T GetInfoByKey<T>(string key, DatabaseTable databaseTable = DatabaseTable.PlayerInfoTable)
+            where T : new()
         {
             StringBuilder sql = new StringBuilder();
 
@@ -138,20 +105,19 @@ namespace MysqlUtility
             sql.Append($" FROM {TableSet.GetTableName(databaseTable)} WHERE account = '{key}'");
 
             OpenDatabase();
-            
+
 
             MySqlCommand cmd = new MySqlCommand(sql.ToString(), _mySqlConnection);
 
             var mySqlDataReader = cmd.ExecuteReader();
             if (mySqlDataReader.Read())
             {
-                var dataReader = mySqlDataReader;
-
                 foreach (var propertyInfo in propertyInfos)
                 {
                     var value = mySqlDataReader.GetString(propertyInfo.Name);
                     propertyInfo.SetValue(info, value);
                 }
+
                 CloseDataBase();
                 return info;
             }
@@ -160,7 +126,8 @@ namespace MysqlUtility
             return default;
         }
 
-        public static int UpdateDataByKey<T>(string key,T newInfo,DatabaseTable databaseTable = DatabaseTable.PlayerInfoTable)
+        public static int UpdateDataByKey<T>(string key, T newInfo,
+            DatabaseTable databaseTable = DatabaseTable.PlayerInfoTable)
             where T : new()
         {
             StringBuilder sql = new StringBuilder();
@@ -168,36 +135,36 @@ namespace MysqlUtility
             sql.Append($"UPDATE {TableSet.GetTableName(databaseTable)} SET ");
 
             var propertyInfos = typeof(T).GetProperties();
-            
+
             foreach (var propertyInfo in propertyInfos)
             {
                 var value = propertyInfo.GetValue(newInfo);
 
-                if (value!=null&& (string)value!="")
+                if (value != null && (string) value != "")
                 {
                     //this data is modified 
-                    sql.Append(propertyInfo.Name + "=" + $"'{(string) value}'"+",");
+                    sql.Append(propertyInfo.Name + "=" + $"'{(string) value}'" + ",");
                 }
             }
-            
+
             //remove the superfluous comma in the end of string builder
             sql.Remove(sql.Length - 1, 1);
             sql.Append($" WHERE account = '{key}'");
 
-          
+
             OpenDatabase();
             MySqlCommand cmd = new MySqlCommand(sql.ToString(), _mySqlConnection);
 
             var executeNonQuery = cmd.ExecuteNonQuery();
 
             CloseDataBase();
-            
+
             //return the number of rows effected
             return executeNonQuery;
         }
 
 
-        public static int UpdatePassword(string key,string newPassword)
+        public static int UpdatePassword(string key, string newPassword)
         {
             string sql = $"UPDATE 20203233欧阳文庆_info set password = '{newPassword}' where account = '{key}'";
             OpenDatabase();
@@ -206,8 +173,78 @@ namespace MysqlUtility
             CloseDataBase();
             return executeNonQuery;
         }
-        
-        
+
+
+        //add character 
+        public static int AddCharacter(string name, string account)
+        {
+            //fixed format
+            string sql = $"insert into 20203233欧阳文庆_character(name,exp,account) " +
+                         $"values('{name}','{0}','{account}')";
+
+            OpenDatabase();
+            try
+            {
+                MySqlCommand cmd = new MySqlCommand(sql, _mySqlConnection);
+                var executeNonQuery = cmd.ExecuteNonQuery();
+                CloseDataBase();
+                return executeNonQuery;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e + "sql:" + sql);
+                CloseDataBase();
+                throw;
+            }
+        }
+
+        //get all 
+        public static List<T>  GetCharactersByAccount<T>(string account) where T : new()
+        {
+            StringBuilder sql = new StringBuilder();
+
+            sql.Append("SELECT ");
+
+
+            var propertyInfos = typeof(T).GetProperties();
+
+            foreach (var propertyInfo in propertyInfos)
+            {
+                sql.Append(propertyInfo.Name + ",");
+            }
+
+            //remove the superfluous comma in the end of string builder
+            sql.Remove(sql.Length - 1, 1);
+
+            sql.Append($" FROM 20203233欧阳文庆_character WHERE account = '{account}'");
+
+            OpenDatabase();
+
+
+            MySqlCommand cmd = new MySqlCommand(sql.ToString(), _mySqlConnection);
+
+            var mySqlDataReader = cmd.ExecuteReader();
+
+            List<T> infoList = new List<T>();
+
+
+            while (mySqlDataReader.Read())
+            {
+                var info = new T();
+
+                foreach (var propertyInfo in propertyInfos)
+                {
+                    var value = mySqlDataReader.GetString(propertyInfo.Name);
+                    propertyInfo.SetValue(info, value);
+                }
+                
+                infoList.Add(info);
+            }
+            CloseDataBase();
+            return infoList;
+        }
+
+
         private static void OpenDatabase()
         {
             try
@@ -224,16 +261,11 @@ namespace MysqlUtility
         }
 
 
-
         private static string CreateCharacter(string account)
         {
-            
-            
-            
             return default;
-            
         }
-        
+
 
         private static void CloseDataBase()
         {

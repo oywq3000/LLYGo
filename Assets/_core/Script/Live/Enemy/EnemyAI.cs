@@ -5,6 +5,7 @@ using _core.Script.Live;
 using Cysharp.Threading.Tasks;
 using Script.Abstract;
 using UnityEngine.AI;
+using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 namespace _core.Script.Enemy
@@ -27,7 +28,7 @@ namespace _core.Script.Enemy
 
     [RequireComponent(typeof(Animator))]
     [RequireComponent(typeof(NavMeshAgent))]
-    public partial class EnemyAI : LiveEntity, IPoolable
+    public partial class EnemyAI : LiveEntity, IPoolable,IOnDead
     {
         //enemy attribute
         public float viewRange = 10;
@@ -58,6 +59,16 @@ namespace _core.Script.Enemy
 
         private int randomSeed;
         
+        private UnityAction _onDead;
+
+        
+        UnityAction IOnDead.OnDead
+        {
+            get => _onDead;
+            set => _onDead = value;
+        }
+
+
         public void Disable()
         {
             gameObject.SetActive(false);
@@ -134,5 +145,8 @@ namespace _core.Script.Enemy
             Gizmos.color = Color.blue;
             Gizmos.DrawWireSphere(transform.position, viewRange);
         }
+
+
+        
     }
 }

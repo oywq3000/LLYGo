@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using _core.Script.Live;
 using Cysharp.Threading.Tasks;
 using Script.Abstract;
@@ -6,70 +7,59 @@ using UnityEngine;
 
 namespace _core.Script.Effect
 {
-    public class BallExplodeController : MonoBehaviour,IPoolable
+    public class BallExplodeController : MonoBehaviour, IPoolable
     {
-        [SerializeField] private float _damageScope = 16;
-        [SerializeField] private float _explodeSpeed = 25;
         [SerializeField] private int _damage = 100;
+
+        private List<IDamageable> cache = new List<IDamageable>();
+
         
-        private SphereCollider _sphereCollider;
+        
         private void Start()
         {
-            _sphereCollider = GetComponent<SphereCollider>();
+            //assign delegate
+            GetComponentInChildren<ParticleCollider>().collisionRecall = CollisionRecall;
         }
 
-        
 
-        private void OnDrawGizmosSelected()
+        private void CollisionRecall(GameObject other)
         {
-            Gizmos.color = Color.blue;
-            Gizmos.DrawWireSphere(transform.position, _damageScope);
-        }
-
-        private void OnCollisionEnter(Collision other)
-        {
-            Debug.Log("Hit");
-            
             if (other.gameObject.CompareTag("Enemy"))
             {
-                Debug.Log("Hit enemy");
-                other.gameObject.GetComponent<IDamageable>().GetHit(_damage);
+                var damageable = other.gameObject.GetComponent<IDamageable>();
+                
+                
+                //only the first collision will cause damage
+                if (!cache.Contains(damageable))
+                {
+                    damageable.GetHit(_damage);
+                
+                    cache.Add(damageable);
+                }
             }
         }
         
-        async void Explosion()
-        {
-            while (true)
-            {
-                await UniTask.Yield();
-                if (_sphereCollider.radius < _damageScope)
-                {
-                    _sphereCollider.radius += Time.deltaTime * _explodeSpeed;
-                }
-                else
-                {
-                    _sphereCollider.enabled = false;
 
-                    //awaiting some seconds for displaying this effect of explosion
-                    await UniTask.Delay(TimeSpan.FromSeconds(2f));
-                    //enqueue this explode
-                    Debug.Log("EnqueueExplan");
-                    GameFacade.Instance.GetInstance<IGameObjectPool>().Enqueue(gameObject);
-                    break;
-                }
-            }
-        }
-
+       
         public void Disable()
         {
-           gameObject.SetActive(false);
+            gameObject.SetActive(false);
         }
 
         public void Init()
         {
             gameObject.SetActive(true);
-            Explosion();
-         
+            
+            
+            cache.Clear();
+            
+            
+            Invoke("Dequeue",1);
+        }
+
+        public void Dequeue()
+        {
+            GameFacade.Instance.GetInstance<IGameObjectPool>().Enqueue(gameObject);
         }
     }
 }

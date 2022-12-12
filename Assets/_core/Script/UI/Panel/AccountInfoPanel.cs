@@ -53,10 +53,10 @@ public class AccountInfoPanel : AbstractUIPanel
         sex.text = $"性别：{ accountInfo.Sex}";
         age.text = $"年龄：{DateTime.Now.Year- Int32.Parse(accountInfo.BornYear)}";
 
-        var characterInfo = MysqlTool.GetInfoByKey<CharacterInfo>(GameFacade.Instance.GetAccount(),DatabaseTable.CharacterInfoTable);
-        
-        characterName.text = $"角色名：{characterInfo.Name}";
-        characterLevel.text = $"经验值：{characterInfo.Exp}";
+        var characterInfo = MysqlTool.GetCharactersByAccount<CharacterInfo>(GameFacade.Instance.GetAccount());
+        Debug.Log("Count:"+characterInfo.Count);
+        characterName.text = $"角色名：{characterInfo[0].Name}";
+        characterLevel.text = $"经验值：{characterInfo[0].Exp}";
     }
     protected override void Onclose()
     {
