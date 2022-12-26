@@ -10,11 +10,15 @@ namespace Player
     {
         public float Cd { get; } = 0.833f;
 
+        public float skillCd = 10;
+
         private IGameObjectPool _objectPool;
 
         private GameObject _portalHolder;
 
         private bool _canAttack = true;
+
+        private bool _canSkill = true;
 
         private async UniTask Start()
         {
@@ -44,9 +48,33 @@ namespace Player
              
                 duringAttack.Invoke();
             }
+
+
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                if (!_canSkill) return;
+
+                animator.SetTrigger("Skill");
+                ReleaseSkill();
+                
+                //send cd event
+                GameFacade.Instance.SendEvent(new OnReleaseSkill()
+                {
+                    SkillCd = skillCd
+                });
+                EntrySkillCd();
+            }
            
         }
 
+        
+        private async void EntrySkillCd()
+        {
+            _canSkill = false;
+            await UniTask.Delay(TimeSpan.FromSeconds(skillCd));
+            _canSkill = true;
+        }
+        
         public void OnExit()
         {
             //unload effect 
@@ -71,6 +99,15 @@ namespace Player
 
         }
 
+
+        private void ReleaseSkill()
+        {
+            var dequeue = _objectPool.Dequeue("ElementalArrow");
+            var characterBodyMapper = transform.parent.GetComponent<CharacterBodyMapper>();
+            dequeue.transform.position = characterBodyMapper.firePoint.position+new Vector3(0,1,0);
+            dequeue.transform.rotation = characterBodyMapper.firePoint.rotation;
+        }
+        
         public void OnHit(int attackIndex)
         {
             var dequeue = _objectPool.Dequeue("LightningRotateBall");

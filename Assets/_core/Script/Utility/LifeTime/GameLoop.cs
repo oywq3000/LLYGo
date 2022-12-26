@@ -26,7 +26,7 @@ public class GameLoop : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
     
-    private void Update()
+    private void FixedUpdate()
     {
         //different state need different data
         Controller?.StateUpdate();

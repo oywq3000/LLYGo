@@ -38,6 +38,9 @@ namespace _core.Script.UI.Skill
                 var weaponSOBJ = GameFacade.Instance.GetBag().itemList[e.Index];
                 if (weaponSOBJ && weaponSOBJ.isEquip)
                 {
+                    _skillImage.gameObject.SetActive(true);
+                 
+                    
                     var skillImageSprite = GameFacade.Instance.GetInstance<IAssetFactory>()
                         .LoadAsset<Sprite>((weaponSOBJ as WeaponItem).skillSprite.RuntimeKey.ToString());
                     
@@ -49,8 +52,7 @@ namespace _core.Script.UI.Skill
                 {
                     //empty-handed case
 
-                    _skillImage.sprite = null;
-                    _skillImageMask.sprite = null;
+                    _skillImage.gameObject.SetActive(false);
                 }
             }).UnRegisterOnDestroy(gameObject);
         }

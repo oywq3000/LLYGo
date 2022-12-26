@@ -17,7 +17,7 @@ namespace _core.Script.Effect
 
         private float timer = 0;
         
-        private void Update()
+        private void FixedUpdate()
         {
             transform.Translate(new Vector3(0, 0, 1) * speed*Time.deltaTime);
 

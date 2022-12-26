@@ -28,7 +28,7 @@ public class GameFacade : MonoBehaviour
     {
         #region GenerateInstance
 
-        var find = GameObject.Find("GameFacade");
+        var find = GameObject.Find("SceneBoot");
         if (find != null && find != gameObject)
         {
             Destroy(this.gameObject);
@@ -128,7 +128,7 @@ public class GameFacade : MonoBehaviour
     //get bag
     public InventoryScrObj GetBag()
     {
-        return _player.GetBag();
+        return _player?.GetBag();
     }
 
     //get account

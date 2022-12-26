@@ -50,10 +50,13 @@ namespace SceneStateRegion
 
             if (Input.GetKeyDown(KeyCode.B))
             {
+                Debug.Log("press the keyCode B");
                 //open bag
                 if (_isBagOpen)
                 {
+                    Debug.Log("Close the panel");
                     _uIkit.ClosePanel("BagPanel");
+                   
                 }
                 else
                 {
@@ -63,26 +66,16 @@ namespace SceneStateRegion
                 _isBagOpen = !_isBagOpen;
             }
 
-            if (Input.GetKeyDown(KeyCode.B))
-            {
-                Debug.Log("Set CanSpeak to one");
-               NarrativeData.Get().SetCustomInt("CanSpeak",1);
-            }
+            // if (Input.GetKeyDown(KeyCode.B))
+            // {
+            //     NarrativeData.Get().SetCustomInt("CanSpeak",1);
+            // }
         }
 
 
         private void RegisterList()
         {
-            //register OnMasterDead for increasing the EXP of character
-            GameFacade.Instance.RegisterEvent<OnMasterDead>(e =>
-            {
-                //to catch the message of the master dying
-                GameFacade.Instance.SendEvent(new OnExpIncreased()
-                {
-                    //add  exp for character
-                    increment = e.Exp
-                });
-            }).AddToUnRegisterList(_unRegisterList);
+           
 
             //register the pause of character movement 
            
@@ -95,6 +88,20 @@ namespace SceneStateRegion
         //used to transfer event making higher layer event to specific event of operation
         private async void EventTransfer()  
         {
+            //register OnMasterDead for increasing the EXP of character
+            GameFacade.Instance.RegisterEvent<OnMasterDead>(e =>
+            {
+                Debug.Log("Call on Master Dead");
+                
+                //to catch the message of the master dying
+                GameFacade.Instance.SendEvent(new OnExpIncreased()
+                {
+                    //add  exp for character
+                    increment = e.Exp
+                });
+            }).AddToUnRegisterList(_unRegisterList);
+            
+            
             
             GameFacade.Instance.RegisterEvent<OnMouseEntryGUI>(e =>
             {

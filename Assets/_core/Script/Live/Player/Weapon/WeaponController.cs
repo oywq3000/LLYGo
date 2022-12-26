@@ -72,12 +72,7 @@ public class WeaponController : MonoBehaviour
             transform.rotation = TurnTo(CameraForward());
         });
     }
-
-
-    private void OnDestroy()
-    {
-    }
-
+    
     void ShortIndexChanged(OnShortIndexChanged e)
     {
         var currentItem = GameFacade.Instance.GetBag().itemList[e.Index];
@@ -123,28 +118,7 @@ public class WeaponController : MonoBehaviour
 
         RefreshHandedWeapon(currentItem);
     }
-
-    async void RecoverCd()
-    {
-        //start attack
-        GameFacade.Instance.SendEvent<OnStartAttack>();
-
-        _canAttack = false;
-        await UniTask.Delay(TimeSpan.FromSeconds(_weapon.Cd * 2 / 3));
-
-        //for insurance we reset this attack trigger advance
-        _animator.ResetTrigger("Attack");
-
-        //end attack previously for better control sense 
-        GameFacade.Instance.SendEvent<OnEndAttack>();
-
-        await UniTask.Delay(TimeSpan.FromSeconds(_weapon.Cd / 3));
-        _canAttack = true;
-
-        //start attack
-    }
-
-
+    
     void Pause()
     {
         _pause = true;

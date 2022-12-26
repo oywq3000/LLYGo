@@ -70,7 +70,7 @@ namespace Player
             //listening skill release
             if (Input.GetKeyDown(KeyCode.Q))
             {
-                if (!_canAttack) return;
+                if (!_canSkill) return;
 
                 //enable effect 
                 _highlightEffect.highlighted = true;
@@ -112,34 +112,6 @@ namespace Player
 
         public void OnHit(int attackIndex)
         {
-            // if (_isEffect)
-            // {
-            //
-            //     GameObject effect = new GameObject();
-            //     //the duration of skill
-            //     if (attackIndex == 0)
-            //     {
-            //          effect = GameFacade.Instance.GetInstance<IGameObjectPool>().Dequeue("Sword Slash 2",
-            //             transform.parent.GetComponent<CharacterBodyMapper>().follows);
-            //         //increase the counter
-            //     }
-            //
-            //     else if (attackIndex == 1)
-            //     {
-            //         effect = GameFacade.Instance.GetInstance<IGameObjectPool>().Dequeue("Sword Slash 3",
-            //             transform.parent.GetComponent<CharacterBodyMapper>().follows);
-            //         //increase the counter
-            //        
-            //     }
-            //
-            //     else if (attackIndex == 2)
-            //     {
-            //         effect = GameFacade.Instance.GetInstance<IGameObjectPool>().Dequeue("Sword Slash 5",
-            //             transform.parent.GetComponent<CharacterBodyMapper>().follows);
-            //         //increase the counter
-            //         effect.transform.SetParent(null);
-            //     }
-            // }
         }
 
         public void EndAttack()

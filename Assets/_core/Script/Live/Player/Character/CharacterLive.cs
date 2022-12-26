@@ -19,8 +19,12 @@ namespace _core.Script.Live
         private Animator _animator;
 
 
-        protected override void Init()
+        protected override async  void Init()
         {
+            //await a frame for the scene initiating 
+           await UniTask.Yield();
+            
+            
             _animator = GetComponent<Animator>();
 
 
@@ -34,22 +38,12 @@ namespace _core.Script.Live
                 CurrentHp = currentHp,
                 CurrentMp = currentMp
             });
+            
+            //todo this is testing code you need to delete it in finally test
+            //set exp manually
+            InitCharacterStatus(exp);
         }
-
-        protected  override async  void Start()
-        {
-            base.Start();
-
-            await UniTask.Delay(TimeSpan.FromSeconds(2));
-            GameFacade.Instance.SendEvent(new OnCharacterStatusUpdate()
-            {
-                Exp = exp,
-                CurrentHp = currentHp,
-                CurrentMp = currentMp
-            });
-        }
-
-
+        
         protected override void OnDead()
         {
             //play git hit animation
@@ -68,13 +62,7 @@ namespace _core.Script.Live
             //play git hit animation
             _animator.SetTrigger("GetHit");
         }
-
-        private void SetBlood(int exp)
-        {
-            //set the blood by exp
-        }
-
-
+        
         private void OnExpIncrease(OnExpIncreased increment)
         {
             exp += increment.increment;
@@ -96,6 +84,14 @@ namespace _core.Script.Live
                 //increase Level
                 level = newLevel;
             }
+            
+            //update displaying panel by sending event
+            GameFacade.Instance.SendEvent(new OnCharacterStatusUpdate()
+            {
+                Exp = exp,
+                CurrentHp = currentHp,
+                CurrentMp = currentMp
+            });
         }
 
         /// <summary>

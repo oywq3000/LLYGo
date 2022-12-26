@@ -6,6 +6,7 @@ using SceneStateRegion;
 using Script.UI;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
 
 public class MenuPanel : AbstractUIPanel
@@ -30,11 +31,7 @@ public class MenuPanel : AbstractUIPanel
         
         endGameBtn.onClick.AddListener(() =>
         {
-#if UNITY_EDITOR
-            EditorApplication.isPlaying = false;
-#else
-            Application.Quit();
-#endif
+            Addressables.LoadSceneAsync("Start");
         });
     }
 

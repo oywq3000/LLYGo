@@ -1,4 +1,5 @@
 ﻿
+using _core.Script.UI.Panel;
 using Cysharp.Threading.Tasks;
 using SceneStateRegion;
 using Script.Event;
@@ -20,8 +21,10 @@ public class LoadingState : AbstractState
         
     }
 
-    private Image _loadBar;
-    private Text _processText;
+    //private Image _loadBar;
+    //private Text _processText;
+
+    private LoadingPanel _loadingPanel;
     
     private float _waitTime = 0;
     private float _totalTime = 1.5f;
@@ -30,8 +33,8 @@ public class LoadingState : AbstractState
     public override void StateStart()
     {
         
-        _loadBar = GameObject.Find("Canvas/LoadingPanel/Slider").GetComponent<Image>();
-        _processText = GameObject.Find("Canvas/LoadingPanel/ProcessText").GetComponent<Text>();
+        _loadingPanel = GameObject.Find("Canvas/LoadingPanel").GetComponent<LoadingPanel>();
+       
         
         
         //background loading 
@@ -48,11 +51,10 @@ public class LoadingState : AbstractState
     {
         base.StateUpdate();
 
-        if (_loadBar&&_processText)
+        if (_loadingPanel)
         {
-            _loadBar.fillAmount = _waitTime/_totalTime;
-        
-            _processText.text = (int)(_waitTime/_totalTime*100)+ "%";
+            _loadingPanel.processValue.value =_waitTime/_totalTime;
+            _loadingPanel.processTip.text = "Loading..."+(int)(_waitTime/_totalTime*100)+ "%";
         }
         if (_asyncOperationHandle.PercentComplete< _waitTime/_totalTime)
         {

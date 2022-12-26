@@ -52,6 +52,7 @@ namespace _core.Script.Enemy.BigMonster
         }
 
 
+        
 
         private void OnDrawGizmosSelected()
         {

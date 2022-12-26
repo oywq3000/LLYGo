@@ -26,7 +26,7 @@ public class EnrollController : AbstractUIPanel
         _uIkit = GameFacade.Instance.GetInstance<IUIkit>();
         
         //get input
-        _accountInput = transform.Find("InputAccount").GetComponent<InputField>();
+        _accountInput = transform.Find("InputName").GetComponent<InputField>();
         _passwordInput = transform.Find("InputPassword").GetComponent<InputField>();
         _sexDropdown = transform.Find("SexDropdown").GetComponent<Dropdown>();
         _bornYearDropdown = transform.Find("BornYearDropdown").GetComponent<Dropdown>();

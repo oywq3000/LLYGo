@@ -35,7 +35,7 @@ namespace SceneStateRegion
                 #endregion
                 
             _uIkit = GameFacade.Instance.GetInstance<IUIkit>();
-            _uIkit.OpenPanel("Login");
+          
             
             //register event
            

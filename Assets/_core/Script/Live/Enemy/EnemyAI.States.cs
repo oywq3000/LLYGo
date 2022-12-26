@@ -27,7 +27,7 @@ namespace _core.Script.Enemy
 
         protected override void OnDead()
         {
-            Debug.Log("Dead");
+            //disable collider 
 
             _fsm.ChangeState(State.Dead);
             

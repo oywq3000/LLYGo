@@ -2049,7 +2049,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: QUESTS
+  m_Text: "\u4EFB\u52A1"
 --- !u!1 &2891541550162582973
 GameObject:
   m_ObjectHideFlags: 0
@@ -2647,7 +2647,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3439335793872563568}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -3868,7 +3868,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Completed Quests
+  m_Text: "\u5B8C\u6210\u7684\u4EFB\u52A1"
 --- !u!1 &5116463303132844537
 GameObject:
   m_ObjectHideFlags: 0
@@ -5558,7 +5558,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Failed Quests
+  m_Text: "\u5931\u8D25\u7684\u4EFB\u52A1"
 --- !u!1 &8077475374371141990
 GameObject:
   m_ObjectHideFlags: 0
@@ -5715,7 +5715,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Active Quests
+  m_Text: "\u6B63\u5728\u8FDB\u884C\u7684\u4EFB\u52A1"
 --- !u!1 &8202838037364948274
 GameObject:
   m_ObjectHideFlags: 0
@@ -6795,7 +6795,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7930743897044452327}
   m_HandleRect: {fileID: 8466604191457280819}
   m_Direction: 2
-  m_Value: 1.0000002
+  m_Value: 1
   m_Size: 0.56250936
   m_NumberOfSteps: 0
   m_OnValueChanged:

@@ -31,6 +31,8 @@ MonoBehaviour:
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
+  title: "\u5149\u5251"
+  decription: "\u589E\u52A0\u4E24\u500D\u5251\u780D\u4F24\u5BB3"
   skillSprite:
     m_AssetGUID: 2f26d21f6fe2bf645b95bcfaa10dfbf7
     m_SubObjectName: 

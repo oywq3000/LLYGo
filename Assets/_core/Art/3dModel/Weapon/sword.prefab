@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6075335842400917326}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SwordTail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 4108914432364574879}
   - component: {fileID: 327234953750049771}
   - component: {fileID: 194324742325477184}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: sword
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -120,7 +120,7 @@ GameObject:
   - component: {fileID: 8538862986405310540}
   - component: {fileID: 418891583226800264}
   - component: {fileID: 1791557448866787865}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -294,7 +294,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8268059231800989949}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -324,7 +324,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 593730046566198476}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SwordHead
   m_TagString: Untagged
   m_Icon: {fileID: 0}

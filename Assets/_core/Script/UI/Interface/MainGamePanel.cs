@@ -31,6 +31,7 @@ namespace _core.Script.UI.Interface
 
             GameFacade.Instance.RegisterEvent<OnCharacterStatusUpdate>(UpdateStatus)
                 .UnRegisterOnDestroy(gameObject);
+            Debug.Log("Register update event");
 
             GameFacade.Instance.RegisterEvent<OnManaUpdate>(UpdateManaSlider)
                 .UnRegisterOnDestroy(gameObject);

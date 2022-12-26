@@ -20,6 +20,9 @@ namespace _core.Script.Live
 
         public virtual void GetHit(int damage)
         {
+            //preventing duplicating recall when this enemy has dead 
+            if (_isDead) return;
+            
             currentHp -= damage;
             OnGetHit(damage);
             

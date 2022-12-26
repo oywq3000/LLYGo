@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using MysqlUtility;
@@ -20,8 +21,9 @@ public class LoginController : AbstractUIPanel
     private IUIkit _uIkit;
 
     private bool _isRememberPassword = true;
-    
-    public override void OnOpen()
+
+
+    public void Start()
     {
         //get input
         _nameInput = transform.Find("InputName").GetComponent<InputField>();
@@ -30,6 +32,16 @@ public class LoginController : AbstractUIPanel
         //register button event
         transform.Find("LoginBtn").GetComponent<Button>().onClick.AddListener(EngageLogin);
         transform.Find("EnrollBtn").GetComponent<Button>().onClick.AddListener(Enroll);
+        transform.Find("CloseBtn").GetComponent<Button>().onClick.AddListener(() =>
+        {
+            CloseSelf();
+            
+            //show the start button
+            GameFacade.Instance.SendEvent(new OnStartButtonSwitch()
+            {
+                IsShow = true
+            });
+        });
         
         ToggleInit();
 
@@ -37,6 +49,11 @@ public class LoginController : AbstractUIPanel
 
         //assign
         _uIkit = GameFacade.Instance.GetInstance<IUIkit>();
+    }
+
+    public override void OnOpen()
+    {
+        
         
     }
 
