@@ -49,12 +49,19 @@ public class LoginController : AbstractUIPanel
 
         //assign
         _uIkit = GameFacade.Instance.GetInstance<IUIkit>();
+        
+        
+        //Register Event
+        GameFacade.Instance.RegisterEvent<OnEnrollSuccess>(e =>
+        {
+            _nameInput.text = e.Account;
+            _passwordInput.text = e.Password;
+        }).UnRegisterOnDestroy(gameObject);
     }
 
     public override void OnOpen()
     {
-        
-        
+       
     }
 
     protected override void Onclose()
@@ -79,8 +86,7 @@ public class LoginController : AbstractUIPanel
                     //create the current player
                     GameFacade.Instance.SetPlayer(myName);
                     
-                    GameLoop.Instance.Controller.SetState(new MenuState(GameLoop.Instance.Controller),false).Forget();
-
+                    GameLoop.Instance.Controller.SetState(new MenuState(GameLoop.Instance.Controller),false);
                     if (_isRememberPassword)
                     {
                         //record the last account

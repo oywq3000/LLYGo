@@ -105,6 +105,8 @@ public class ModifyPanel : AbstractUIPanel
                     
                     //sent event
                     GameFacade.Instance.SendEvent<OnInfoCHanged>();
+                    
+                    CloseSelf();
                 }
                 
             }

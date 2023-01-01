@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Script.Event.Camera;
+using Script.Event.CharacterMove;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -136,6 +137,16 @@ namespace DialogueQuests
             filter = QuestFilter.Active;
             filter_index = 0;
             RefreshPanel();
+            
+            GameFacade.Instance.SendEvent(new ChangeCameraState()
+            {
+                IsPause = true
+            });
+            
+            GameFacade.Instance.SendEvent(new ChangeWeaponState()
+            {
+                IsCanAttack = false
+            });
         }
 
         public void TogglePanel()
@@ -150,6 +161,15 @@ namespace DialogueQuests
         {
             
             Hide();
+            GameFacade.Instance.SendEvent(new ChangeCameraState()
+            {
+                IsPause = false
+            });
+            
+            GameFacade.Instance.SendEvent(new ChangeWeaponState()
+            {
+                IsCanAttack = true
+            });
         }
 
         //For compatiblity with previous version, does same thing than Show()

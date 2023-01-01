@@ -16,12 +16,12 @@ namespace Script.UI
         {
             //initiate variable
             isOnOpen = true;
-            
+
             //call for every loads
             gameObject.SetActive(true);
 
             await DefaultPreOpen();
-            
+
             OnOpen();
         }
 
@@ -37,12 +37,15 @@ namespace Script.UI
         {
             await GetComponent<CanvasGroup>().DOFade(0, 0.3f).SetEase(Ease.Linear).ToUniTask();
         }
-        
+
         public virtual async void Disable()
         {
             Onclose();
             await DefaultPreClose();
-            gameObject.SetActive(false);
+            if (gameObject)
+            {
+                gameObject.SetActive(false);
+            }
             isOnOpen = false;
         }
 
@@ -51,7 +54,7 @@ namespace Script.UI
         {
             GameFacade.Instance.GetInstance<IUIkit>().ClosePanel(gameObject);
         }
-        
+
         public abstract void OnOpen();
 
 

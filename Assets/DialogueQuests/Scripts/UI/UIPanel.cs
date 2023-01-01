@@ -73,6 +73,7 @@ namespace DialogueQuests
             {
                 IsCanAttack = false
             });
+            
         }
 
         public virtual void Hide(bool instant = false)
@@ -93,6 +94,7 @@ namespace DialogueQuests
             {
                 IsCanAttack = true
             });
+           
         }
 
         public void SetVisible(bool visi)

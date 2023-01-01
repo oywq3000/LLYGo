@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using DG.Tweening;
 using MysqlUtility;
+using Script.Event;
 using Script.UI;
 using TMPro;
 using UnityEngine;
@@ -75,6 +76,14 @@ public class EnrollController : AbstractUIPanel
             
             //close this panel
             _uIkit.ClosePanel(gameObject);
+            
+            
+            //send event for login panel
+            GameFacade.Instance.SendEvent(new OnEnrollSuccess()
+            {
+                Account = myAccount,
+                Password = myPassword
+            });
         }
         else
         {

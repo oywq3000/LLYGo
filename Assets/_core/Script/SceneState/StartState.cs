@@ -48,7 +48,7 @@ namespace SceneStateRegion
         {
             if (Input.GetKeyDown(KeyCode.R))
             {
-                StateController.SetState(new MainState(StateController)).Forget();
+                StateController.SetState(new MainState(StateController));
             }
         }
         

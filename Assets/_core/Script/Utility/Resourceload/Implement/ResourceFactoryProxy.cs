@@ -115,32 +115,32 @@ namespace Script.AssetFactory
             Debug.Log("Operation preLoad");
             
             //waiting this async loading 
-            foreach (var asyncOperationHandle in _proLoadHandles)
-            {
-                Debug.Log("add preload");
-                
-                await asyncOperationHandle.ToUniTask();
-
-                var gameObject = asyncOperationHandle.Result;
-
-                gameObject.name = key;
-                
-                
-                Debug.Log(gameObject);
-                var component = gameObject.GetComponent<IPoolable>();
-
-                if (component != null)
-                {
-                    component.Disable();
-                }
-                else
-                {
-                    gameObject.AddComponent<PoolizeGBDefault>().Disable();
-                }
-
-                //enqueue this gameObject
-                queue.Enqueue(gameObject);
-            }
+            // foreach (var asyncOperationHandle in _proLoadHandles)
+            // {
+            //     Debug.Log("add preload");
+            //     
+            //     await asyncOperationHandle.ToUniTask();
+            //
+            //     var gameObject = asyncOperationHandle.Result;
+            //
+            //     gameObject.name = key;
+            //     
+            //     
+            //     Debug.Log(gameObject);
+            //     var component = gameObject.GetComponent<IPoolable>();
+            //
+            //     if (component != null)
+            //     {
+            //         component.Disable();
+            //     }
+            //     else
+            //     {
+            //         gameObject.AddComponent<PoolizeGBDefault>().Disable();
+            //     }
+            //
+            //     //enqueue this gameObject
+            //     queue.Enqueue(gameObject);
+            // }
 
             //add it to cache 
             _disableObjects.Add(key, queue);

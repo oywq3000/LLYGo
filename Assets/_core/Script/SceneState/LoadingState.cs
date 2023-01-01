@@ -33,6 +33,9 @@ public class LoadingState : AbstractState
     public override void StateStart()
     {
         
+        Debug.Log("Loading Start");
+        
+        
         _loadingPanel = GameObject.Find("Canvas/LoadingPanel").GetComponent<LoadingPanel>();
        
         
@@ -50,7 +53,8 @@ public class LoadingState : AbstractState
     public override void StateUpdate()
     {
         base.StateUpdate();
-
+        
+        
         if (_loadingPanel)
         {
             _loadingPanel.processValue.value =_waitTime/_totalTime;
@@ -85,7 +89,7 @@ public class LoadingState : AbstractState
         //entry game scene
         await UniTask.WaitUntil(() => _asyncOperationHandle.Result.ActivateAsync().isDone);
         //truly set target state
-        StateController.SetState(_targetState, false, true).Forget();
+        StateController.SetState(_targetState, false, true);
     }
     
 }

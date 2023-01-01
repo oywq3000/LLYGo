@@ -17,10 +17,6 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 21ce8d8d967246345a737948140cea59
   m_SerializeEntries:
-  - m_GUID: 3d91b66316bcb4043b39dd7267562786
-    m_Address: CFPanel
-    m_ReadOnly: 0
-    m_SerializedLabels: []
   - m_GUID: 1aef37bf1918e824b9add50aabe78cf1
     m_Address: Enroll
     m_ReadOnly: 0
@@ -55,6 +51,26 @@ MonoBehaviour:
     m_SerializedLabels: []
   - m_GUID: 12c3c07fc468d6e41ba9cdb0e1096739
     m_Address: ModifyPasswordPanel
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 96b3c4ceb3be987409999ffd4ae6da2a
+    m_Address: Slot_CharacterEmpty
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: dc6bcf264e52e0841b2a5ad40759ea7b
+    m_Address: Slot_CharacterSelect
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: e1d999a6e4f5f104eb4c045338a6e666
+    m_Address: AddHeroPanel
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 3f764674544b2c945aac78223da8908c
+    m_Address: ConfirmPanel
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 8bf357ef9144eec40b9a06d7d68dcbe9
+    m_Address: WarningPanel
     m_ReadOnly: 0
     m_SerializedLabels: []
   m_ReadOnly: 0

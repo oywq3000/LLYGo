@@ -7,6 +7,7 @@
         private string _account;
         private string _name;
         private string _exp;
+        private string _id;
         
 
         public string Name
@@ -25,6 +26,12 @@
         {
             get => _account;
             set => _account = value;
+        }
+
+        public string Id
+        {
+            get => _id;
+            set => _id = value;
         }
     }
 }

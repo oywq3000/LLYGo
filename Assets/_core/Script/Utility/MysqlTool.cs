@@ -199,7 +199,7 @@ namespace MysqlUtility
         }
 
         //get all 
-        public static List<T>  GetCharactersByAccount<T>(string account) where T : new()
+        public static List<T> GetCharactersByAccount<T>(string account) where T : new()
         {
             StringBuilder sql = new StringBuilder();
 
@@ -217,6 +217,7 @@ namespace MysqlUtility
             sql.Remove(sql.Length - 1, 1);
 
             sql.Append($" FROM 20203233欧阳文庆_character WHERE account = '{account}'");
+
 
             OpenDatabase();
 
@@ -237,14 +238,46 @@ namespace MysqlUtility
                     var value = mySqlDataReader.GetString(propertyInfo.Name);
                     propertyInfo.SetValue(info, value);
                 }
-                
+
                 infoList.Add(info);
             }
+
             CloseDataBase();
             return infoList;
         }
 
 
+        public static int DeleteCharacterInfo(string account, string id)
+        {
+            string sql = $"DELETE FROM 20203233欧阳文庆_character WHERE account = '{account}' and  id = {id}";
+            OpenDatabase();
+            MySqlCommand cmd = new MySqlCommand(sql.ToString(), _mySqlConnection);
+            var executeNonQuery = cmd.ExecuteNonQuery();
+            CloseDataBase();
+            return executeNonQuery;
+        }
+
+        public static int DeleteAccount(string account)
+        {
+            string sql = $"DELETE FROM 20203233欧阳文庆_info WHERE account = '{account}'";
+            OpenDatabase();
+            MySqlCommand cmd = new MySqlCommand(sql.ToString(), _mySqlConnection);
+            var executeNonQuery = cmd.ExecuteNonQuery();
+            CloseDataBase();
+            return executeNonQuery;
+        }
+
+
+        public static int UpdateCharacterExp(string account, string id,int exp)
+        {
+            string sql = $"UPDATE 20203233欧阳文庆_character SET exp = {exp} WHERE account = '{account}' and  id = {id}";
+            OpenDatabase();
+            MySqlCommand cmd = new MySqlCommand(sql.ToString(), _mySqlConnection);
+            var executeNonQuery = cmd.ExecuteNonQuery();
+            CloseDataBase();
+            return executeNonQuery;
+        }
+        
         private static void OpenDatabase()
         {
             try

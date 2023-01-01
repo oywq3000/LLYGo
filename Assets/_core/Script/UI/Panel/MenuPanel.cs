@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using _core.Script.UI.Panel;
 using Cysharp.Threading.Tasks;
 using SceneStateRegion;
 using Script.UI;
@@ -15,24 +16,33 @@ public class MenuPanel : AbstractUIPanel
     [SerializeField] private Button accountBtn;
     [SerializeField] private Button endGameBtn;
 
-    public override void OnOpen()
+
+    private void Start()
     {
         startGameBtn.onClick.AddListener(() =>
         {
-         
-            GameLoop.Instance.Controller.SetState(new MainState(GameLoop.Instance.Controller)).Forget();
+            if (GetComponentInChildren<SelectHeros>().IsSelected())
+            {
+                GameLoop.Instance.Controller.SetState(new MainState(GameLoop.Instance.Controller));
+            }
+            else
+            {
+                GameFacade.Instance.GetInstance<IUIkit>().OpenPanel("WarningPanel").GetComponent<WarningPanel>()
+                    .SetInfo("请添加英雄！");
+            }
         });
 
         accountBtn.onClick.AddListener(() =>
         {
             GameFacade.Instance.GetInstance<IUIkit>().OpenPanel("AccountInfoPanel");
         });
-        
-        
-        endGameBtn.onClick.AddListener(() =>
-        {
-            Addressables.LoadSceneAsync("Start");
-        });
+
+
+        endGameBtn.onClick.AddListener(() => { Addressables.LoadSceneAsync("Start"); });
+    }
+
+    public override void OnOpen()
+    {
     }
 
     protected override void Onclose()
@@ -42,6 +52,5 @@ public class MenuPanel : AbstractUIPanel
 
     private void OnDestroy()
     {
-        Debug.Log("MenuPanelDestroy");
     }
 }

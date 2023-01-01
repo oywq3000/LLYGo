@@ -2,7 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using _core.AcountInfo;
+using _core.Script.UI;
+using _core.Script.UI.Panel;
+using Cysharp.Threading.Tasks;
 using MysqlUtility;
+using SceneStateRegion;
 using Script.Event;
 using Script.Facade;
 using Script.UI;
@@ -16,13 +20,13 @@ public class AccountInfoPanel : AbstractUIPanel
     [SerializeField] private Text name;
     [SerializeField] private Text sex;
     [SerializeField] private Text age;
-    [SerializeField] private Text characterName;
-    [SerializeField] private Text characterLevel;
     [SerializeField] private Button modifyPlayerInfoBtn;
     [SerializeField] private Button modifyPasswordBtn;
+    [SerializeField] private Button cancellationBtn;
     [SerializeField] private Button returnBtn;
 
-    public override void OnOpen()
+
+    private void Start()
     {
         //register button event
         modifyPlayerInfoBtn.onClick.AddListener(() =>
@@ -35,6 +39,20 @@ public class AccountInfoPanel : AbstractUIPanel
         });
         returnBtn.onClick.AddListener(this.CloseSelf);
         
+        cancellationBtn.onClick.AddListener(() =>
+        {
+            var operationPanel = GameFacade.Instance.GetInstance<IUIkit>().OpenPanel("ConfirmPanel");
+
+            var operation = operationPanel.GetComponent<IOperationPanel>();
+            operationPanel.GetComponent<ConfirmPanel>().SetContentText("确定要删除改账号");
+
+            operation.Result = variable =>
+            {
+                AccountCancellation();
+            };
+        });
+        
+        
         RefreshPanel();
         
         //register event
@@ -44,19 +62,27 @@ public class AccountInfoPanel : AbstractUIPanel
         }).UnRegisterOnDestroy(gameObject);
     }
 
+    public override void OnOpen()
+    {
+       
+    }
 
-    public void RefreshPanel()
+
+    private async void AccountCancellation()
+    {
+        MysqlTool.DeleteAccount(GameFacade.Instance.GetAccount());
+
+        await UniTask.Delay(TimeSpan.FromSeconds(0.5));
+        GameLoop.Instance.Controller.SetState(new StartState(GameLoop.Instance.Controller),false);
+    }
+    
+    private void RefreshPanel()
     {
         var accountInfo = MysqlTool.GetInfoByKey<AccountInfo>(GameFacade.Instance.GetAccount());
         //display the info
         name.text = $"姓名：{accountInfo.Account}";
         sex.text = $"性别：{ accountInfo.Sex}";
         age.text = $"年龄：{DateTime.Now.Year- Int32.Parse(accountInfo.BornYear)}";
-
-        var characterInfo = MysqlTool.GetCharactersByAccount<CharacterInfo>(GameFacade.Instance.GetAccount());
-        Debug.Log("Count:"+characterInfo.Count);
-        characterName.text = $"角色名：{characterInfo[0].Name}";
-        characterLevel.text = $"经验值：{characterInfo[0].Exp}";
     }
     protected override void Onclose()
     {

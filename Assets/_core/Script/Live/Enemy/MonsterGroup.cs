@@ -15,7 +15,7 @@ namespace _core.Script.Enemy
 
         [SerializeField] private int threasholdCount;
 
-        private int deadCount = 0;
+        public int deadCount = 0;
 
         private void Start()
         {

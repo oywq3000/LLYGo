@@ -14,6 +14,10 @@ namespace PlayerRegion
 
         private string _account;
 
+        private int _characterIndex;
+        
+        private List<_core.AcountInfo.CharacterInfo> _characterInfos;
+
         //judge a wonderful 
 
       //todo for final complete 
@@ -21,12 +25,15 @@ namespace PlayerRegion
         {
             //get the current acount
             _account = account;
-            Debug.Log("Load BaG");
             //load the bag belonged the account
             _bag =  Resources.Load<InventoryScrObj>("Bag/Inventory/Bag0");
+
+            //to hold the current character index
+            _characterIndex = -1;
         }
 
 
+        
         public void UpdateAccount(string account)
         {
             _account = account;
@@ -35,6 +42,37 @@ namespace PlayerRegion
         {
             return _account;
         }
+
+        public void UpdateCharacterIndex(int index)
+        {
+            _characterIndex = index;
+        }
+
+        public int GetCharacterIndex()
+        {
+            return _characterIndex;
+        }
+
+        public void SetCharacterList(List<_core.AcountInfo.CharacterInfo> list)
+        {
+            _characterInfos = list;
+        }
+
+        public List<_core.AcountInfo.CharacterInfo> GetCharacterInfos()
+        {
+            return _characterInfos;
+        }
+        
+        public _core.AcountInfo.CharacterInfo GetSelectedCharacterInfo()
+        {
+            if (_characterInfos!=null&&_characterIndex!=-1)
+            {
+                return _characterInfos[_characterIndex];
+            }
+
+            return default;
+        }
+        
 
         public InventoryScrObj GetBag()
         {

@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: HerosSprite
+  m_EditorClassIdentifier: 
+  m_GroupName: HerosSprite
+  m_Data:
+    m_SerializedData: []
+  m_GUID: e73ebad0148a5e146b611b3e4010f231
+  m_SerializeEntries:
+  - m_GUID: 010d7c6f523bf1144973e31037e392a5
+    m_Address: LLYSprite
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 570dc6c7c0742224eb56a6d15a9e72e0
+    m_Address: LSLYSprite
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 6d8b90ca85f764340b128f5c598e71aa, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 36b62827f89d334439b69be4c158724f, type: 2}
+    - {fileID: 11400000, guid: 13b9f634d177d9b4aafecd1628378e30, type: 2}

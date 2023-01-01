@@ -70,8 +70,12 @@ namespace _core.Script.UI.Interface
             //set current Hp and Mp
             statsManager.healthManager.SetCurrHealth(e.CurrentHp);
             statsManager.manaManager.SetCurrMana(e.CurrentMp);
-        }
+            
+            //store the the exp for character 
 
+        }
+        
+        
         private void UpdateMaxHpMp()
         {
             //update the max point of hp and mp

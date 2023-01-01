@@ -49,10 +49,13 @@ public class WeaponController : MonoBehaviour
             if (!e.IsCanAttack)
             {
                 Pause();
+                Debug.Log("Pause Attack");
             }
             else
             {
                 Continue();
+                
+                Debug.Log("Can Attack");
             }
         }).UnRegisterOnDestroy(gameObject);
 

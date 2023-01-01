@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Sword
   itemImage:
-    m_AssetGUID: d063499cc8e1fc041a41e542efe2201b
+    m_AssetGUID: 2f26d21f6fe2bf645b95bcfaa10dfbf7
     m_SubObjectName: 
     m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null

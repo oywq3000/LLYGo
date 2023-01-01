@@ -7,5 +7,7 @@ namespace Script.UI
         GameObject OpenPanel(string key,UILayer layer = UILayer.Common,bool canDuplicate = false);
         void ClosePanel(GameObject obj);
         void ClosePanel(string key);
+
+        void Release();
     }
 }

@@ -1,6 +1,7 @@
 ﻿using _core.Script.Live.Player.Character;
 using Cysharp.Threading.Tasks;
 using DialogueQuests;
+using MysqlUtility;
 using Script.Abstract;
 using Script.Event;
 using Script.Event.Camera;
@@ -40,7 +41,7 @@ namespace SceneStateRegion
             
             //pre load
             Debug.Log("MainStart");
-            GameFacade.Instance.GetInstance<IGameObjectPool>().ProLoad("Explode10",5);
+           // GameFacade.Instance.GetInstance<IGameObjectPool>().ProLoad("Explode10",5);
         }
 
         // ReSharper disable Unity.PerformanceAnalysis
@@ -200,8 +201,18 @@ namespace SceneStateRegion
                     IsPause = false
                 });
             };
-            
-           
+
+
+
+            GameFacade.Instance.RegisterEvent<OnCharacterStatusUpdate>(e =>
+            {
+                //store the current exp for current character
+                var selectedCharacterInfo = GameFacade.Instance.GetSelectedCharacterInfo();
+                
+                //update database record 
+                MysqlTool.UpdateCharacterExp(selectedCharacterInfo.Account, selectedCharacterInfo.Id, e.Exp);
+            });
+
         }
 
         public override void StateEnd()

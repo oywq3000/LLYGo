@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using PlayerRegion;
 using Script.Abstract;
@@ -22,16 +21,20 @@ public class GameFacade : MonoBehaviour
 
     //the player in current case
     private CurrentPlayer _player;
-    
+
+
     // Start is called before the first frame update
     private void Awake()
     {
         #region GenerateInstance
 
+        Debug.Log("GameFacedeAwake");
+
         var find = GameObject.Find("SceneBoot");
         if (find != null && find != gameObject)
         {
             Destroy(this.gameObject);
+            return;
         }
         else
         {
@@ -40,7 +43,7 @@ public class GameFacade : MonoBehaviour
         }
 
         #endregion
-        
+
         _container = new Container();
         //Instance register list
         RegisterList();
@@ -86,7 +89,7 @@ public class GameFacade : MonoBehaviour
     //provide function of registering event directly
     public IUnRegister RegisterEvent<T>(Action<T> action) where T : new()
     {
-       return _eventHolder.Register<T>(action);
+        return _eventHolder.Register<T>(action);
     }
 
     public void UnRegisterEvent<T>(Action<T> action) where T : new()
@@ -99,11 +102,11 @@ public class GameFacade : MonoBehaviour
         _eventHolder.Send<T>();
     }
 
-    public void SendEvent<T>(T t)where T : new()
+    public void SendEvent<T>(T t) where T : new()
     {
         _eventHolder.Send(t);
     }
-    
+
     #endregion
 
 
@@ -114,17 +117,14 @@ public class GameFacade : MonoBehaviour
     }
 
 
-
     #region Player
-
 
     public void SetPlayer(string account)
     {
         //Set player 
         _player = new CurrentPlayer(account);
-        
     }
-    
+
     //get bag
     public InventoryScrObj GetBag()
     {
@@ -136,11 +136,38 @@ public class GameFacade : MonoBehaviour
     {
         return _player.GetAccount();
     }
-    
-   public void UpdateAccount(string account)
-   {
-       _player.UpdateAccount(account);
-   }
 
-   #endregion
+    public void UpdateAccount(string account)
+    {
+        _player.UpdateAccount(account);
+    }
+
+
+    public void UpdateCharacterIndex(int index)
+    {
+        _player.UpdateCharacterIndex(index);
+    }
+
+    public int GetCharacterIndex()
+    {
+        return _player.GetCharacterIndex();
+    }
+
+
+    public void SetCharacterList(List<_core.AcountInfo.CharacterInfo> list)
+    {
+        _player.SetCharacterList(list);
+    }
+
+    public _core.AcountInfo.CharacterInfo GetSelectedCharacterInfo()
+    {
+        return _player.GetSelectedCharacterInfo();
+    }
+
+    public List<_core.AcountInfo.CharacterInfo> GetCharacterInfos()
+    {
+        return _player.GetCharacterInfos();
+    }
+
+    #endregion
 }

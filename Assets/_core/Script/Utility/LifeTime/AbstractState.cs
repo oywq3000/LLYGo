@@ -3,6 +3,7 @@ using Cysharp.Threading.Tasks;
 using Script.Abstract;
 using Script.Event;
 using Script.Facade;
+using Script.UI;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -50,6 +51,7 @@ namespace SceneStateRegion
 
             //resource all asset loaded in this scene
             GameFacade.Instance.GetInstance<IGameObjectPool>().ReleaseAll();
+            GameFacade.Instance.GetInstance<IUIkit>().Release();
 
             //this operation is for synchronizing methods that must execute behind loading  
             GameLoop.Instance.Set(false);

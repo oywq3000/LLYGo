@@ -14,7 +14,7 @@ public class SceneStateController
     private bool _canUpdate = false;
 
     //set scene state
-    public async UniTask SetState(AbstractState state, bool isLoadScene = true, bool isfirst = false)
+    public void SetState(AbstractState state, bool isLoadScene = true, bool isfirst = false)
     {
         _canUpdate = false;
 
@@ -34,29 +34,32 @@ public class SceneStateController
         if (isLoadScene)
         {
             //entry loading scene
-            await this.SetState(new LoadingState(this, state), false);
+          this.SetState(new LoadingState(GameLoop.Instance.Controller, state), false);
+           
         }
         else
         {
             //update current scene state
             _abstractState = state;
-            //loading directly
-
-            Debug.Log("LoadSence");
-            var asyncOperationHandle = Addressables.LoadSceneAsync(_abstractState.SceneName);
-            
-            //wait for this scene loaded complete
-            await UniTask.WaitUntil(()=>asyncOperationHandle.IsDone);
-            _abstractState.StateStart();
+            LoadingScene();
         }
-
-        _canUpdate = true;
+        
+      
     }
 
     // ReSharper disable Unity.PerformanceAnalysis
     /// <summary>
     /// current state real time update
     /// </summary>
+    ///
+    private async void LoadingScene()
+    {
+        var asyncOperationHandle = Addressables.LoadSceneAsync(_abstractState.SceneName);
+        //wait for this scene loaded complete
+        await UniTask.WaitUntil(()=>asyncOperationHandle.IsDone);
+        _abstractState.StateStart();
+        _canUpdate = true;
+    }
     public void StateUpdate()
     {
         if (_canUpdate)

@@ -19,9 +19,19 @@ public class SceneBoot : MonoBehaviour
 
     private void Awake()
     {
+        
+        Debug.Log("BootAwake");
+        
+        var find = GameObject.Find("SceneBoot");
+        if (find != null && find != gameObject)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+        
         if (IsStartScence)
         {
-            GameLoop.Instance.Controller.SetState(new StartState(GameLoop.Instance.Controller),false,true).Forget();
+            GameLoop.Instance.Controller.SetState(new StartState(GameLoop.Instance.Controller),false,true);
         }
         else
         {
@@ -30,7 +40,7 @@ public class SceneBoot : MonoBehaviour
                 //Boot different SceneState with given name by reflection 
                 Type type = Type.GetType("SceneStateRegion." + stateName + "State");
                 var instance = Activator.CreateInstance(type, GameLoop.Instance.Controller) as AbstractState;
-                GameLoop.Instance.Controller.SetState(instance, false, true).Forget();
+                GameLoop.Instance.Controller.SetState(instance, false, true);
             }
 
             GameFacade.Instance.SetPlayer(accountName);

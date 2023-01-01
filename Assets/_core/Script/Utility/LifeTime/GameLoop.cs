@@ -14,11 +14,19 @@ public class GameLoop : MonoBehaviour
 
     private void Awake()
     {
-        var find = GameObject.Find("GameLoop");
+        Debug.Log("GameLoopAwake");
+        
+        var find = GameObject.Find("SceneBoot");
         //avoid the generate the same object
         if (find != null && find != this.gameObject)
         {
             Destroy(this.gameObject);
+            return;
+        }
+        else
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
 
         Controller = new SceneStateController();
@@ -26,7 +34,7 @@ public class GameLoop : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
     
-    private void FixedUpdate()
+    private void Update()
     {
         //different state need different data
         Controller?.StateUpdate();
