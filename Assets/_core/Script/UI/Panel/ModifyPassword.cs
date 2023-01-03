@@ -63,7 +63,7 @@ namespace _core.Script.UI.Panel
 
                 if (_passwordCf)
                 {
-                    var updatePassword = MysqlTool.UpdatePassword(GameFacade.Instance.GetAccount(), oldPassword.text);
+                    var updatePassword = MysqlTool.UpdatePassword(GameFacade.Instance.GetAccount(), newPassword.text);
                     if (updatePassword!=0)
                     {
                         var openPanel = GameFacade.Instance.GetInstance<IUIkit>().OpenPanel("Tips");

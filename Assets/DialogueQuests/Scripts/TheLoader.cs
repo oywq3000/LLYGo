@@ -30,12 +30,15 @@ namespace DialogueQuests
                 Addressables.InstantiateAsync(chat_bubble).WaitForCompletion();
 
             ActorData[] all_actors = Resources.LoadAll<ActorData>(actors_folder);
+          
             foreach (ActorData quest in all_actors)
                 ActorData.Load(quest);
 
             QuestData[] all_quests = Resources.LoadAll<QuestData>(quests_folder);
             foreach (QuestData quest in all_quests)
                 QuestData.Load(quest);
+            
+           
         }
     }
 

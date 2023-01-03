@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using _core.Script.Live;
+using _core.Script.Music;
 using Cysharp.Threading.Tasks;
 using Script.Abstract;
 using UnityEngine;
@@ -13,12 +14,15 @@ namespace _core.Script.Effect
 
         private List<IDamageable> cache = new List<IDamageable>();
 
+        public string explodeSound;
         
         
         private void Start()
         {
             //assign delegate
             GetComponentInChildren<ParticleCollider>().collisionRecall = CollisionRecall;
+            
+            GetComponent<PointSound>().PlayOneShot(explodeSound);
         }
 
 

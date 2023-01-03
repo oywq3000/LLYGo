@@ -1,4 +1,5 @@
-﻿using Script.UI;
+﻿using _core.Script.Music;
+using Script.UI;
 using UnityEngine;
 
 namespace SceneStateRegion
@@ -17,6 +18,9 @@ namespace SceneStateRegion
             _uiKit.OpenPanel("MenuPanel");
             
             base.StateStart();
+            
+            //play bgm for menu
+            AudioManager.Instance.PlayBGM("MenuBgm");
         }
 
         public override void StateUpdate()
@@ -29,7 +33,7 @@ namespace SceneStateRegion
         public override void StateEnd()
         {
            
-            
+            AudioManager.Instance.StopBGM();
             base.StateEnd();
         }
     }

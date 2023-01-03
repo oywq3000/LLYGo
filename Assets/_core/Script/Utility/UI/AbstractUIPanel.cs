@@ -20,6 +20,8 @@ namespace Script.UI
             //call for every loads
             gameObject.SetActive(true);
 
+            OnOpenInstantly();
+            
             await DefaultPreOpen();
 
             OnOpen();
@@ -50,6 +52,11 @@ namespace Script.UI
         }
 
 
+        public virtual void OnOpenInstantly()
+        {
+            
+        }
+
         protected void CloseSelf()
         {
             GameFacade.Instance.GetInstance<IUIkit>().ClosePanel(gameObject);
@@ -57,7 +64,7 @@ namespace Script.UI
 
         public abstract void OnOpen();
 
-
+        
         protected abstract void Onclose();
     }
 }

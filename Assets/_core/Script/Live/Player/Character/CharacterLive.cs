@@ -48,6 +48,7 @@ namespace _core.Script.Live
         {
             //play git hit animation
             _animator.SetTrigger("Dead");
+            GameFacade.Instance.SendEvent<OnPlayerDead>();
         }
 
         protected override void OnGetHit(float damage)
@@ -107,7 +108,7 @@ namespace _core.Script.Live
             wholeHp = 550 + level * 35;
             wholeMp = 80 + level * 16;
 
-            currentHp = wholeMp;
+            currentHp = wholeHp;
             currentMp = wholeMp;
             
        

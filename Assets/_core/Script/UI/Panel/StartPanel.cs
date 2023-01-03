@@ -4,6 +4,8 @@ using Script.Facade;
 using Script.UI;
 using UnityEditor;
 using UnityEngine.UI;
+using UnityEngine;
+using System.Collections;
 
 namespace _core.Script.UI.Panel
 {

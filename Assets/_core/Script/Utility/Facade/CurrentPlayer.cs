@@ -28,6 +28,11 @@ namespace PlayerRegion
             //load the bag belonged the account
             _bag =  Resources.Load<InventoryScrObj>("Bag/Inventory/Bag0");
 
+            //clear this bag
+            for (int i = 0; i < _bag.itemList.Count; i++)
+            {
+                _bag.itemList[i] = null;
+            }
             //to hold the current character index
             _characterIndex = -1;
         }

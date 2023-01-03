@@ -4,6 +4,7 @@ using _core.Script.FSM;
 using _core.Script.Live;
 using Cysharp.Threading.Tasks;
 using Script.Abstract;
+using Script.Event;
 using UnityEngine.AI;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
@@ -61,6 +62,8 @@ namespace _core.Script.Enemy
         
         private UnityAction _onDead;
 
+        private bool _isPlayerDead = false;
+
         
         UnityAction IOnDead.OnDead
         {
@@ -74,11 +77,26 @@ namespace _core.Script.Enemy
             gameObject.SetActive(false);
         }
 
+        protected override void Start()
+        {
+            base.Start();
+            //Register Event 
+            GameFacade.Instance.RegisterEvent<OnPlayerDead>(e =>
+            {
+                _fsm.ChangeState(State.Idle);
+                _isPlayerDead = true;
+            });
+        }
+
+
         void IPoolable.Init()
         {
             Init();
             gameObject.SetActive(true);
-
+            var blooder = transform.Find("BloodBarCanvas").gameObject;
+            blooder.SetActive(true);
+            blooder.GetComponent<BloodBarController>().Init();
+            currentHp = wholeHp;
             randomSeed = Random.Range(0, 9);
         }
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class TrackCharacter : MonoBehaviour
@@ -9,17 +10,25 @@ public class TrackCharacter : MonoBehaviour
     public Transform playerIconTransform;
     
     private Transform _playerTransform;
-    void Start()
+
+    private bool _canTrick = false;
+    async void Start()
     {
+        await UniTask.DelayFrame(5);
         _playerTransform = GameObject.FindWithTag("Player").transform;
+
+        _canTrick = true;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
         //trick the player 
-        transform.position = _playerTransform.position + Vector3.up * 15;
+        if (_canTrick)
+        {
+            transform.position = _playerTransform.position + Vector3.up * 15;
 
-        playerIconTransform.eulerAngles = new Vector3(0, 0, -_playerTransform.eulerAngles.y);
+            playerIconTransform.eulerAngles = new Vector3(0, 0, -_playerTransform.eulerAngles.y);
+        }
     }
 }

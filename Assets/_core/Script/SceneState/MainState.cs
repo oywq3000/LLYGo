@@ -1,4 +1,6 @@
-﻿using _core.Script.Live.Player.Character;
+﻿using System;
+using _core.Script.Live.Player.Character;
+using _core.Script.Music;
 using Cysharp.Threading.Tasks;
 using DialogueQuests;
 using MysqlUtility;
@@ -9,6 +11,7 @@ using Script.Event.CharacterMove;
 using Script.Facade;
 using Script.UI;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace SceneStateRegion
 {
@@ -17,6 +20,7 @@ namespace SceneStateRegion
         private IUIkit _uIkit;
 
         private bool _isBagOpen = false;
+        private bool _isSettingPanelOpen = false;
 
         private IUnRegisterList _unRegisterList = new UnRegister();
 
@@ -34,14 +38,33 @@ namespace SceneStateRegion
 
             //create character
 
+            //todo improve this after 
+            var selectedCharacterInfo = GameFacade.Instance.GetSelectedCharacterInfo();
+            var playerTransform = GameObject.Find("PlayerPosition").transform;
+            var actorData = Addressables.LoadAssetAsync<ActorData>("PlayerGirl").WaitForCompletion();
 
-            // var gameObject = GameFacade.Instance.GetInstance<IGameObjectPool>().Dequeue("lly");
-            // gameObject.GetComponent<ICharacterStatus>().InitCharacterStatus(500);
-            
+            if (selectedCharacterInfo.Name=="莉莉娅")
+            {
+                actorData.portrait = Addressables.LoadAssetAsync<Sprite>("llyHeadIcon").WaitForCompletion();
+                var gameObject = GameFacade.Instance.GetInstance<IGameObjectPool>().Dequeue("lly",playerTransform);
+                gameObject.GetComponent<ICharacterStatus>().InitCharacterStatus(Int32.Parse(selectedCharacterInfo.Exp));
+            }
+            else
+            {
+                actorData.portrait = Addressables.LoadAssetAsync<Sprite>("LSLYHeadIcon").WaitForCompletion();
+                var gameObject = GameFacade.Instance.GetInstance<IGameObjectPool>().Dequeue("lsly",playerTransform);
+                gameObject.GetComponent<ICharacterStatus>().InitCharacterStatus(Int32.Parse(selectedCharacterInfo.Exp));
+            }
             
             //pre load
-            Debug.Log("MainStart");
-           // GameFacade.Instance.GetInstance<IGameObjectPool>().ProLoad("Explode10",5);
+            // GameFacade.Instance.GetInstance<IGameObjectPool>().ProLoad("Explode10",5);
+           
+           //operation 
+           //hide the mouse 
+           Cursor.visible = false;
+           
+           //player bgm
+           AudioManager.Instance.PlayBGM("MainBgm");
         }
 
         // ReSharper disable Unity.PerformanceAnalysis
@@ -51,11 +74,10 @@ namespace SceneStateRegion
 
             if (Input.GetKeyDown(KeyCode.B))
             {
-                Debug.Log("press the keyCode B");
+              
                 //open bag
                 if (_isBagOpen)
                 {
-                    Debug.Log("Close the panel");
                     _uIkit.ClosePanel("BagPanel");
                    
                 }
@@ -67,28 +89,108 @@ namespace SceneStateRegion
                 _isBagOpen = !_isBagOpen;
             }
 
-            // if (Input.GetKeyDown(KeyCode.B))
-            // {
-            //     NarrativeData.Get().SetCustomInt("CanSpeak",1);
-            // }
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                //open bag
+                if (_isSettingPanelOpen)
+                {
+                    _uIkit.ClosePanel("SettingPanel");
+                   
+                }
+                else
+                {
+                    _uIkit.OpenPanel("SettingPanel");
+                }
+                _isSettingPanelOpen = !_isSettingPanelOpen;
+            }
+
+            
         }
 
 
         private void RegisterList()
         {
            
+            GameFacade.Instance.RegisterEvent<OnPlayerDead>(e =>
+            {
+             
+                GameFacade.Instance.SendEvent(new FreezingCharacter()
+                {
+                    IsFreezing = true
+                });
+                
+                //open the dead panel
+                _uIkit.OpenPanel("DeadPanel2Main");
+            }).AddToUnRegisterList(_unRegisterList);
+            
 
             //register the pause of character movement 
-           
-
-
+            
             EventTransfer();
+
+            GameFacade.Instance.RegisterEvent<OnPlayerDead>(e =>
+            {
+                GameFacade.Instance.SendEvent(new FreezingCharacter()
+                {
+                    IsFreezing = true
+                });
+                
+                //open dead panel
+                
+            });
         }
 
 
         //used to transfer event making higher layer event to specific event of operation
         private async void EventTransfer()  
         {
+            //Register Freezing Character Event by the way of transfer
+            GameFacade.Instance.RegisterEvent<FreezingCharacter>(e =>
+            {
+                if (e.IsFreezing)
+                {
+                    GameFacade.Instance.SendEvent(new ChangeMoveState()
+                    {
+                        IsCanMove = false
+                    });
+                
+                    GameFacade.Instance.SendEvent(new ChangeWeaponState()
+                    {
+                        IsCanAttack = false
+                    });
+                
+                    GameFacade.Instance.SendEvent(new ChangeWheelState()
+                    {
+                        IsEnable = false
+                    });
+                
+                    GameFacade.Instance.SendEvent(new ChangeCameraState()
+                    {
+                        IsPause = true
+                    });
+
+                }
+                else
+                {
+                    GameFacade.Instance.SendEvent(new ChangeMoveState()
+                    {
+                        IsCanMove = true
+                    });
+                    GameFacade.Instance.SendEvent(new ChangeWeaponState()
+                    {
+                        IsCanAttack = true
+                    });
+                    GameFacade.Instance.SendEvent(new ChangeWheelState()
+                    {
+                        IsEnable = true
+                    });
+                    GameFacade.Instance.SendEvent(new ChangeCameraState()
+                    {
+                        IsPause = false
+                    });
+                }
+            });
+            
             //register OnMasterDead for increasing the EXP of character
             GameFacade.Instance.RegisterEvent<OnMasterDead>(e =>
             {
@@ -126,14 +228,14 @@ namespace SceneStateRegion
                 {
                     IsCanMove = false
                 });
-            });
+            }).AddToUnRegisterList(_unRegisterList);;
             GameFacade.Instance.RegisterEvent<OnEndAttack>(e =>
             {
                 GameFacade.Instance.SendEvent(new ChangeMoveState()
                 {
                     IsCanMove = true
                 });
-            });
+            }).AddToUnRegisterList(_unRegisterList);;
 
             GameFacade.Instance.RegisterEvent<OnMouseEntryGUI>(e =>
             {
@@ -141,7 +243,7 @@ namespace SceneStateRegion
                 {
                     IsPause = true
                 });
-            });
+            }).AddToUnRegisterList(_unRegisterList);;
             
             GameFacade.Instance.RegisterEvent<OnMouseExitGUI>(e =>
             {
@@ -149,7 +251,7 @@ namespace SceneStateRegion
                 {
                     IsPause = false
                 });
-            });
+            }).AddToUnRegisterList(_unRegisterList);;
             
             
 
@@ -178,6 +280,9 @@ namespace SceneStateRegion
                 {
                     IsPause = true
                 });
+                
+                //show mouse 
+                Cursor.visible = true;
             };
             
             NarrativeManager.Get().onUnpauseGameplay += () =>
@@ -200,6 +305,9 @@ namespace SceneStateRegion
                 {
                     IsPause = false
                 });
+                
+                //hide mouse 
+                Cursor.visible = false;
             };
 
 
@@ -211,7 +319,7 @@ namespace SceneStateRegion
                 
                 //update database record 
                 MysqlTool.UpdateCharacterExp(selectedCharacterInfo.Account, selectedCharacterInfo.Id, e.Exp);
-            });
+            }).AddToUnRegisterList(_unRegisterList);;
 
         }
 
@@ -219,6 +327,7 @@ namespace SceneStateRegion
         {
             //unRegister all event registered in this main state
             _unRegisterList.UnRegisterAll();
+            AudioManager.Instance.StopBGM();
             base.StateEnd();
         }
     }

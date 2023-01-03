@@ -15,6 +15,7 @@ public class MenuPanel : AbstractUIPanel
     [SerializeField] private Button startGameBtn;
     [SerializeField] private Button accountBtn;
     [SerializeField] private Button endGameBtn;
+    [SerializeField] private Button helpBtn;
 
 
     private void Start()
@@ -38,7 +39,15 @@ public class MenuPanel : AbstractUIPanel
         });
 
 
-        endGameBtn.onClick.AddListener(() => { Addressables.LoadSceneAsync("Start"); });
+        endGameBtn.onClick.AddListener(() =>
+        {
+            GameLoop.Instance.Controller.SetState(new StartState(GameLoop.Instance.Controller),false);
+        });
+        
+        helpBtn.onClick.AddListener(() =>
+        {
+            GameFacade.Instance.GetInstance<IUIkit>().OpenPanel("HelpPanel");
+        });
     }
 
     public override void OnOpen()

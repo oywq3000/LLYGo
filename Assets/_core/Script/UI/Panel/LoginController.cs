@@ -21,8 +21,7 @@ public class LoginController : AbstractUIPanel
     private IUIkit _uIkit;
 
     private bool _isRememberPassword = true;
-
-
+    
     public void Start()
     {
         //get input

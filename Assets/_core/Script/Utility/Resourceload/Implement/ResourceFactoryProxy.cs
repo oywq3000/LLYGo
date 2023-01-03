@@ -151,11 +151,6 @@ namespace Script.AssetFactory
         {
             foreach (var keyValuePair in _disableObjects)
             {
-                while (keyValuePair.Value.Count != 0)
-                {
-                    GameObject.Destroy(keyValuePair.Value.Dequeue());
-                }
-
                 _resourceFactory.Release(keyValuePair.Key);
 
                 _loadedAssetKeys.Remove(keyValuePair.Key);

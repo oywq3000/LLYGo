@@ -10,7 +10,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class BagPanel : AbstractUIPanel, IPointerEnterHandler, IPointerExitHandler
+public class BagPanel : AbstractUIPanel
 {
     public GameObject itemPrototype;
 
@@ -34,8 +34,8 @@ public class BagPanel : AbstractUIPanel, IPointerEnterHandler, IPointerExitHandl
         //Refresh bag's inventory
         RefreshInventory();
     }
-    
-    
+
+
     private void RefreshInventory()
     {
         for (int i = startLimit; i < _currentPlayerBag.itemList.Count; i++)
@@ -44,16 +44,15 @@ public class BagPanel : AbstractUIPanel, IPointerEnterHandler, IPointerExitHandl
 
             //prevent index out of this bag grid and itemList is null
             if (i > endLimit || !item) continue;
-            
+
             if (transform.GetChild(i - startLimit).transform.childCount != 0)
             {
                 if (!item.isEquip)
                 {
                     //update item count
                     transform.GetChild(i - startLimit).transform.GetChild(0).GetChild(0)
-                        .GetComponent<Text>().text = ((NormalItem)item).count.ToString();
+                        .GetComponent<Text>().text = ((NormalItem) item).count.ToString();
                 }
-               
             }
             else
             {
@@ -67,16 +66,15 @@ public class BagPanel : AbstractUIPanel, IPointerEnterHandler, IPointerExitHandl
                 {
                     itemObj.GetComponent<Image>().sprite = item.itemImage.LoadAssetAsync().WaitForCompletion();
                 }
-                
+
                 if (!item.isEquip)
                 {
-                    itemObj.transform.GetChild(0).GetComponent<Text>().text = ((NormalItem)item).count.ToString();
+                    itemObj.transform.GetChild(0).GetComponent<Text>().text = ((NormalItem) item).count.ToString();
                 }
                 else
                 {
                     itemObj.transform.GetChild(0).GetComponent<Text>().text = "";
                 }
-              
             }
         }
 
@@ -91,36 +89,29 @@ public class BagPanel : AbstractUIPanel, IPointerEnterHandler, IPointerExitHandl
     {
         RefreshInventory();
     }
-    
+
     private void OnDestroy()
     {
         //unregister event of bag refresh
         GameFacade.Instance?.UnRegisterEvent<OnPlayerBagRefresh>(PlayerBagRefreshEvent);
     }
-
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        _isMouseOn = true;
-        GameFacade.Instance.SendEvent<OnMouseEntryGUI>();
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        _isMouseOn = false;
-        GameFacade.Instance.SendEvent<OnMouseExitGUI>();
-    }
+    
 
     public override void OnOpen()
     {
-       
+    }
+
+    public override void OnOpenInstantly()
+    {
+        GameFacade.Instance.SendEvent<OnMouseEntryGUI>();
+        Cursor.visible = true;
     }
 
     protected override void Onclose()
     {
-        if (_isMouseOn)
-        {
-            //if this panel close and mouse on it then call this event
-            GameFacade.Instance.SendEvent<OnMouseExitGUI>();
-        }
+        //hide mouse 
+        Cursor.visible = false;
+        //if this panel close and mouse on it then call this event
+        GameFacade.Instance.SendEvent<OnMouseExitGUI>();
     }
 }

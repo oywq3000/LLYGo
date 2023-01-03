@@ -147,6 +147,8 @@ namespace DialogueQuests
             {
                 IsCanAttack = false
             });
+
+            Cursor.visible = true;
         }
 
         public void TogglePanel()
@@ -170,6 +172,8 @@ namespace DialogueQuests
             {
                 IsCanAttack = true
             });
+            
+            Cursor.visible = false;
         }
 
         //For compatiblity with previous version, does same thing than Show()

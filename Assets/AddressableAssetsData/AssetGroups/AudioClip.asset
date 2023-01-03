@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: AudioClip
+  m_EditorClassIdentifier: 
+  m_GroupName: AudioClip
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 3b0e42c606e000a4b9de1bd6b7ee2f5f
+  m_SerializeEntries:
+  - m_GUID: 333ba123e59c72f4fa3745ea0d308021
+    m_Address: MenuBgm
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: bad1613a036140149ba4c0aa830c2a8b
+    m_Address: FlowerLawnBgm
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 45dcaf6324e11ac48a10c2d8b6bac372
+    m_Address: MainBgm
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 6f8e3acb2387235428aa13f665a0c987
+    m_Address: Explode
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 086d3aa0b07fc0b45961c4a6906a8965
+    m_Address: FootHit
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: a3b5f2d5d1d0ba74798a549100f16d71
+    m_Address: Shoot
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 81171aa1b73421f45939ef18ea34346a
+    m_Address: SwordHit
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 6d8b90ca85f764340b128f5c598e71aa, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 5ad086e291b0b884989687beedf5e285, type: 2}
+    - {fileID: 11400000, guid: 19d6862b4e05eff49bc978960a9fa2a3, type: 2}

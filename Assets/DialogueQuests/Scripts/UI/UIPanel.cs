@@ -94,7 +94,7 @@ namespace DialogueQuests
             {
                 IsCanAttack = true
             });
-           
+            Cursor.visible = false;
         }
 
         public void SetVisible(bool visi)
@@ -119,6 +119,7 @@ namespace DialogueQuests
         {
             return canvas_group.alpha;
         }
+        
     }
 
 }

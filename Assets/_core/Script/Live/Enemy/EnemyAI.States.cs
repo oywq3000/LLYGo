@@ -53,9 +53,12 @@ namespace _core.Script.Enemy
                 })
                 .OnFixedUpdate(() =>
                 {
-                    if (destination < viewRange)
+                    if(_isPlayerDead !=true)
                     {
-                        _fsm.ChangeState(State.Walk);
+                        if (destination < viewRange)
+                        {
+                            _fsm.ChangeState(State.Walk);
+                        }
                     }
                 })
                 .OnExit(() =>
@@ -185,7 +188,6 @@ namespace _core.Script.Enemy
                 {
                     _animator.SetBool("Attack2",true);
                     await UniTask.Delay(TimeSpan.FromSeconds(GetClip("Attack2").length));
-
                     _animator.SetBool("Attack2",false);
                     _fsm.ChangeState(State.Idle);
                 })

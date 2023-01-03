@@ -73,6 +73,30 @@ MonoBehaviour:
     m_Address: WarningPanel
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: b15ca628f5236cc4fb20ffd00ba7cea1
+    m_Address: SettingPanel
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: be2e50a4f917f084a8e4adbd763e7a39
+    m_Address: DeadPanel
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 98a51d14ad1c98f4ca9ec8d59b96fdb0
+    m_Address: DeadPanel2Main
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 73ad1f80d2f25374c8bed62171bcea0f
+    m_Address: IntroductionPanel
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 7f23a1d27edd71245ab34651b1c3fa75
+    m_Address: StartPanel
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: abbe86d7745fe7244a0c887908b10501
+    m_Address: HelpPanel
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 6d8b90ca85f764340b128f5c598e71aa, type: 2}
   m_SchemaSet:

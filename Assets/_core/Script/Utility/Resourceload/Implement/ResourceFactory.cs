@@ -51,7 +51,6 @@ public class ResourceFactory:IAssetFactory
     {
         if (_assetCache.TryGetValue(key,out Object obj))
         {
-            Addressables.Release(obj);
             _assetCache.Remove(key);
         }
     }

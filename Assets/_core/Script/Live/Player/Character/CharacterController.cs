@@ -30,6 +30,8 @@ namespace Player
         //the origin variable is for making the character to ground
         private float _currentSpeed = 0.01f;
 
+        private bool _isPlayerDead = false;
+
 
         private CancellationTokenSource _cancelSource;
 
@@ -54,7 +56,11 @@ namespace Player
                 }
             }).UnRegisterOnDestroy(gameObject);
             GameFacade.Instance.RegisterEvent<OnCharacterInjured>(OnInjured).UnRegisterOnDestroy(gameObject);
-            
+            GameFacade.Instance.RegisterEvent<OnPlayerDead>(e =>
+            {
+                _isPlayerDead = true;
+            }).UnRegisterOnDestroy(gameObject);
+
         }
 
 
@@ -69,6 +75,7 @@ namespace Player
         //register it to your relative event
         void Pause()
         {
+           
             _updatePause = true;
             _animator.SetFloat("Speed", 0);
         }
@@ -80,6 +87,8 @@ namespace Player
 
         void OnInjured(OnCharacterInjured e)
         {
+            
+            
             if (_cancelSource!=null)
             {
                 //cancel last task
@@ -95,7 +104,14 @@ namespace Player
                 _updatePause = true;
                 await UniTask.Delay(TimeSpan.FromSeconds(e.Duration-0.2));
                 _updatePause = false;
-            },true,_cancelSource.Token);
+
+            },true,_cancelSource.Token).ContinueWith(() =>
+            {
+                if (_isPlayerDead)
+                {
+                    _updatePause = true;
+                }
+            });
         }
 
         #endregion

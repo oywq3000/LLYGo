@@ -45,6 +45,14 @@ MonoBehaviour:
     m_Address: RingImage
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 12c962cd089715e48b0f69070ea740ce
+    m_Address: llyHeadIcon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: a1cb3d80892e10e4ca090d306f7e59bb
+    m_Address: LSLYHeadIcon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 6d8b90ca85f764340b128f5c598e71aa, type: 2}
   m_SchemaSet:

@@ -22,6 +22,12 @@ namespace _core.Script.Enemy
             _bloodBar = transform.Find("BloodBar").GetComponent<Image>();
             _remainder = transform.Find("Remainder").GetComponent<Image>();
         }
+
+        public void Init()
+        {
+            _remainder.fillAmount = 1;
+        }
+        
         public void UpdateBloodBar(float percent)
         {
             //Update BloodBar 

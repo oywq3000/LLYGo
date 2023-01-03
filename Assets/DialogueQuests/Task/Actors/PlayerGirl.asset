@@ -15,9 +15,8 @@ MonoBehaviour:
   actor_id: player
   is_player: 1
   title: Player
-  portrait: {fileID: 21300000, guid: 8ec885b969cb4b840adf5b2bb2664612, type: 3}
-  portrait_mini: {fileID: 21300000, guid: 8ec885b969cb4b840adf5b2bb2664612, type: 3}
-  animation: {fileID: 9100000, guid: c67eb23f50d3f3741a44fcb6fc1e7412, type: 2}
+  portrait: {fileID: 21300000, guid: 010d7c6f523bf1144973e31037e392a5, type: 3}
+  animation: {fileID: 0}
   show_bubble: 0
   bubble_offset: {x: 0, y: 2, z: 0}
   bubble_size: 1
