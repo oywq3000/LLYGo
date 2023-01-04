@@ -15,17 +15,23 @@ namespace _core.Script.Enemy
         private Image _bloodBar;
         private Image _remainder;
 
+        private void Awake()
+        {
+            _bloodBar = transform.Find("BloodBar").GetComponent<Image>();
+            _remainder = transform.Find("Remainder").GetComponent<Image>();
+        }
+
         private void Start()
         {
             _playerTransform = Camera.main.transform;
 
-            _bloodBar = transform.Find("BloodBar").GetComponent<Image>();
-            _remainder = transform.Find("Remainder").GetComponent<Image>();
+            
         }
 
         public void Init()
         {
             _remainder.fillAmount = 1;
+            _remainder.color = new Color(0.4257689f,0.9056604f,0.1238875f,1);
         }
         
         public void UpdateBloodBar(float percent)

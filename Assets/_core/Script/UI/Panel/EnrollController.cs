@@ -21,7 +21,9 @@ public class EnrollController : AbstractUIPanel
     private bool _passwordCf = false;
 
     private IUIkit _uIkit;
-    public override void OnOpen()
+
+
+    private void Start()
     {
         //initiate ui tool
         _uIkit = GameFacade.Instance.GetInstance<IUIkit>();
@@ -40,6 +42,11 @@ public class EnrollController : AbstractUIPanel
         
         transform.Find("EnrollBtn").GetComponent<Button>().onClick.AddListener(Enroll);
         transform.Find("ReturnBtn").GetComponent<Button>().onClick.AddListener(Return);
+    }
+
+    public override void OnOpen()
+    {
+      
     }
 
     protected override void Onclose()

@@ -451,7 +451,7 @@ public class SelectHeros : MonoBehaviour
         MysqlTool.AddCharacter(info.Name, info.Account);
         //update the current character info
         _characterInfos = MysqlTool.GetCharactersByAccount<CharacterInfo>(GameFacade.Instance.GetAccount());
-
+        GameFacade.Instance.SetCharacterList(_characterInfos);
         //move the current card to right1 and before card to left
         _items[CurrentIndex].GetComponent<RectTransform>().DOAnchorPos(
             right1.anchoredPosition, speed);

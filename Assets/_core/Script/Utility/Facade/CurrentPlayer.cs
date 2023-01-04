@@ -28,16 +28,21 @@ namespace PlayerRegion
             //load the bag belonged the account
             _bag =  Resources.Load<InventoryScrObj>("Bag/Inventory/Bag0");
 
-            //clear this bag
-            for (int i = 0; i < _bag.itemList.Count; i++)
-            {
-                _bag.itemList[i] = null;
-            }
+            ClearBag();
             //to hold the current character index
             _characterIndex = -1;
         }
 
 
+        public void ClearBag()
+        {
+            //clear this bag
+            for (int i = 0; i < _bag.itemList.Count; i++)
+            {
+                _bag.itemList[i] = null;
+            }
+        }
+        
         
         public void UpdateAccount(string account)
         {
@@ -72,6 +77,8 @@ namespace PlayerRegion
         {
             if (_characterInfos!=null&&_characterIndex!=-1)
             {
+                Debug.Log($"Count:{_characterInfos.Count} Index:{_characterIndex}");
+                
                 return _characterInfos[_characterIndex];
             }
 

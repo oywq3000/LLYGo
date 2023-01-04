@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 using DG.Tweening;
 using MysqlUtility;
 using Script.UI;
@@ -15,8 +16,8 @@ namespace _core.Script.UI.Panel
         [SerializeField] private Button returnBtn;
 
         private bool _passwordCf = false;
-        
-        public override void OnOpen()
+
+        private void Start()
         {
             cFBtn .onClick.AddListener(CFModifyPassword);
             returnBtn.onClick.AddListener(CloseSelf);
@@ -44,6 +45,11 @@ namespace _core.Script.UI.Panel
                     canvasGroup.DOFade(1, 0.3f);
                 }
             });
+        }
+
+        public override void OnOpen()
+        {
+            
         }
 
         private void CFModifyPassword()

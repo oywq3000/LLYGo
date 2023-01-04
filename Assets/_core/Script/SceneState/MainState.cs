@@ -65,8 +65,12 @@ namespace SceneStateRegion
            
            //player bgm
            AudioManager.Instance.PlayBGM("MainBgm");
+           
+           GameFacade.Instance.ClearBag();
         }
 
+    
+        
         // ReSharper disable Unity.PerformanceAnalysis
         public override void StateUpdate()
         {

@@ -44,15 +44,25 @@ namespace _core.Script.Live
             InitCharacterStatus(exp);
         }
         
-        protected override void OnDead()
+        protected override async void OnDead()
         {
+            GameFacade.Instance.SendEvent<OnPlayerDead>();
+
+            _isDead = true;
+
+            await UniTask.Delay(TimeSpan.FromSeconds(1));
             //play git hit animation
             _animator.SetTrigger("Dead");
-            GameFacade.Instance.SendEvent<OnPlayerDead>();
+           
         }
 
         protected override void OnGetHit(float damage)
         {
+            if (_isDead)
+            {
+                return;
+            }
+            
             //Update bleed slider via Event
             GameFacade.Instance.SendEvent(new OnCharacterInjured()
             {

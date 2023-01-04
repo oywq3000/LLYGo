@@ -96,6 +96,7 @@ namespace _core.Script.Enemy
             var blooder = transform.Find("BloodBarCanvas").gameObject;
             blooder.SetActive(true);
             blooder.GetComponent<BloodBarController>().Init();
+            _isDead = false;
             currentHp = wholeHp;
             randomSeed = Random.Range(0, 9);
         }

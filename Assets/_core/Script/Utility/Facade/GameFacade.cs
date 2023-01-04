@@ -125,6 +125,11 @@ public class GameFacade : MonoBehaviour
         _player = new CurrentPlayer(account);
     }
 
+    public void ClearBag()
+    {
+        _player.ClearBag();
+    }
+
     //get bag
     public InventoryScrObj GetBag()
     {

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.Events;
 
 /// <summary>
@@ -55,7 +56,10 @@ namespace DialogueQuests
 
         void Start()
         {
-
+            var quest1 = Addressables.LoadAssetAsync<QuestData>("GhostHunter").WaitForCompletion();
+            var quest2 = Addressables.LoadAssetAsync<QuestData>("KillOneMonster").WaitForCompletion();
+            CancelQuest(quest1);
+            CancelQuest(quest2);
         }
 
         void Update()

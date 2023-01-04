@@ -137,7 +137,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1610898216994214153
 RectTransform:
   m_ObjectHideFlags: 0
@@ -287,7 +287,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u4EBA\u7269\u79FB\u52A8\uFF1AAWSD\n\u8DF3\u8DC3\uFF1ASpace\n\u653B\u51FB\uFF1A\u9F20\u6807\u5DE6\u952E\n\u6280\u80FD\uFF1AQ\n\u80CC\u5305\uFF1AB\n\u8BBE\u7F6E\uFF1AT\n\u4EFB\u52A1\u9762\u677F\uFF1AJ"
+  m_text: "\u4EBA\u7269\u79FB\u52A8\uFF1AAWSD\n\u8DF3\u8DC3\uFF1ASpace\n\u653B\u51FB\uFF1A\u9F20\u6807\u5DE6\u952E\n\u5207\u6362\u6B66\u5668\uFF1A\u6EDA\u8F6E\n\u6280\u80FD\uFF1AQ\n\u80CC\u5305\uFF1AB\n\u8BBE\u7F6E\uFF1AT\n\u4EFB\u52A1\u9762\u677F\uFF1AJ"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8241a92b3f403ed42b91d4010d7b5444, type: 2}
   m_sharedMaterial: {fileID: -5153599418216957640, guid: 8241a92b3f403ed42b91d4010d7b5444,

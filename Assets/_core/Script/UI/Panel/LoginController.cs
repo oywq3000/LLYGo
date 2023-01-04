@@ -85,7 +85,7 @@ public class LoginController : AbstractUIPanel
                     //create the current player
                     GameFacade.Instance.SetPlayer(myName);
                     
-                    GameLoop.Instance.Controller.SetState(new MenuState(GameLoop.Instance.Controller),false);
+                    GameLoop.Instance.Controller.SetState(new MenuState(GameLoop.Instance.Controller));
                     if (_isRememberPassword)
                     {
                         //record the last account

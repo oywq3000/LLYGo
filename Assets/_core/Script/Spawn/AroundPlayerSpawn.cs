@@ -16,9 +16,9 @@ namespace _core.Script.Spawn
         [SerializeField] private string[] monsterNames;
         [SerializeField] private float cycle = 3; //spawn cycle for seconds
         [SerializeField] private float count = 1; //the spawning count for every spawn cycle
-        [SerializeField] private int zoneRadius = 20; //the radius of zone spawn 
-        [SerializeField] private int playerDistance = 10;
-        [SerializeField] private int objectRadius = 1;
+        [SerializeField] private int minDistance = 20;
+        [SerializeField] private int maxDistance = 40;
+        [SerializeField] private int orientCount = 12;
         [SerializeField] private int monsterView = 500;
         [SerializeField] private bool canSpawn = false;
         [SerializeField] private bool followPlayer = false;
@@ -34,11 +34,11 @@ namespace _core.Script.Spawn
         {
 
             canSpawn = false;
-            await UniTask.DelayFrame(5);
+            await UniTask.Delay(TimeSpan.FromSeconds(2));
             
             _assetFactory = GameFacade.Instance.GetInstance<IGameObjectPool>();
 
-            _timer = cycle;
+            
 
             //get player Transform
             _playerTransform = GameObject.FindWithTag("Player").transform;
@@ -86,23 +86,27 @@ namespace _core.Script.Spawn
         Vector3 GetSpawnPoint()
         {
             //return the random position 
-            int x;
-            int y;
+            float x;
+            float y;
 
-            if (Random.Range(0, 2) == 0)
-            {
-                x = Random.Range((zoneRadius - playerDistance) / objectRadius, zoneRadius / objectRadius + 1);
-                y = Random.Range((zoneRadius - playerDistance) / objectRadius, zoneRadius / objectRadius + 1);
-            }
-            else
-            {
-                x = Random.Range(-zoneRadius / objectRadius, (-zoneRadius + playerDistance) / objectRadius + 1);
-                y = Random.Range(-zoneRadius / objectRadius, (-zoneRadius + playerDistance) / objectRadius + 1);
-            }
+            var range = Random.Range(minDistance, maxDistance + 1);
+            var pi = Random.Range(0,orientCount)*2*Mathf.PI/orientCount;
 
-            var vector3 = new Vector3(x * objectRadius, 0, y * objectRadius);
+            Debug.Log(range*Mathf.Cos(pi));
+            x = range*Mathf.Sin(pi);
+            y = range*Mathf.Cos(pi);
 
-            var ray = new Ray(new Vector3(vector3.x, transform.position.y, vector3.z), Vector3.down);
+            var transformPosition = transform.position;
+
+            //offset the point
+            x = x + transformPosition.x;
+            y = y + transformPosition.z;
+            
+            Debug.Log($"X:{x},Y{y}");
+            
+            var vector3 = new Vector3(x, 0, y);
+
+            var ray = new Ray(new Vector3(vector3.x, transformPosition.y, vector3.z), Vector3.down);
 
             if (Physics.Raycast(ray, out RaycastHit raycastHit))
             {
@@ -113,55 +117,7 @@ namespace _core.Script.Spawn
         }
 
 
-        private void OnDrawGizmosSelected()
-        {
-            return;
-            Gizmos.color = Color.green;
-
-
-            var points = new List<Vector3>();
-
-
-            var originalPoint = transform.position;
-
-            //add original point
-            points.Add(originalPoint);
-
-
-            var index = 0;
-
-            for (int i = -zoneRadius / objectRadius; i < zoneRadius / objectRadius + 1; i++)
-            {
-                if (i > (-zoneRadius + playerDistance) / objectRadius &&
-                    i < (zoneRadius - playerDistance) / objectRadius)
-                {
-                    continue;
-                }
-
-                for (int j = -zoneRadius / objectRadius; j < zoneRadius / objectRadius + 1; j++)
-                {
-                    if (j > (-zoneRadius + playerDistance) / objectRadius &&
-                        j < (zoneRadius - playerDistance) / objectRadius)
-                    {
-                        continue;
-                    }
-
-                    var vector3 = new Vector3(originalPoint.x + i * objectRadius, 10,
-                        originalPoint.z + j * objectRadius);
-
-
-                    var ray = new Ray(new Vector3(vector3.x, originalPoint.y, vector3.z), Vector3.down);
-
-                    if (Physics.Raycast(ray, out RaycastHit raycastHit))
-                    {
-                        Debug.Log("Hit collider");
-                        vector3.y = raycastHit.point.y;
-                    }
-
-                    Gizmos.DrawSphere(vector3, 0.5f);
-                    points.Add(vector3);
-                }
-            }
-        }
+       
+        
     }
 }

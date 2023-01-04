@@ -17,11 +17,6 @@ namespace _core.Script.UI.Panel
 
         private void Start()
         {
-            OnOpen();
-        }
-
-        public override void OnOpen()
-        {
             //disable it at first
             startButton.gameObject.SetActive(false);
             
@@ -59,6 +54,11 @@ namespace _core.Script.UI.Panel
             
             //open login panel
             GameFacade.Instance.GetInstance<IUIkit>().OpenPanel("Login");
+        }
+
+        public override void OnOpen()
+        {
+           
         }
 
         

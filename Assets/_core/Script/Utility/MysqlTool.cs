@@ -155,12 +155,24 @@ namespace MysqlUtility
             OpenDatabase();
             MySqlCommand cmd = new MySqlCommand(sql.ToString(), _mySqlConnection);
 
-            var executeNonQuery = cmd.ExecuteNonQuery();
+            int result;
+            
+            try
+            {
+                result = cmd.ExecuteNonQuery();
+            }
+            catch (MySqlException e)
+            {
+
+                result = 0;
+            }
+            
+          
 
             CloseDataBase();
 
             //return the number of rows effected
-            return executeNonQuery;
+            return result;
         }
 
 

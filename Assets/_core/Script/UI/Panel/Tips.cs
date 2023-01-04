@@ -13,15 +13,23 @@ public class Tips : AbstractUIPanel
     protected override async UniTask DefaultPreOpen()
     {
         var canvasGroup = GetComponent<CanvasGroup>();
+        //to preserve this panel on last 
+        gameObject.transform.SetAsLastSibling();
+        
         canvasGroup.alpha = 0;
         await canvasGroup.DOFade(1, 0.5f).SetEase(Ease.Linear).ToUniTask();
         await UniTask.Delay(TimeSpan.FromSeconds(0.7));
         await canvasGroup.DOFade(0, 0.5f).SetEase(Ease.Linear).ToUniTask();
     }
 
-    public override void OnOpen()
+    private void Start()
     {
         _uIkit = GameFacade.Instance.GetInstance<IUIkit>();
+    }
+
+    public override void OnOpen()
+    {
+      
         _uIkit.ClosePanel(gameObject);
     }
 

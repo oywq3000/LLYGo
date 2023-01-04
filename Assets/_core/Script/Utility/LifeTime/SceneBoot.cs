@@ -16,6 +16,8 @@ public class SceneBoot : MonoBehaviour
     public string accountName;
 
     public bool IsStartScence = false;
+    public bool IsTestScene = false;
+        
 
     private void Awake()
     {
@@ -28,6 +30,14 @@ public class SceneBoot : MonoBehaviour
             Destroy(this.gameObject);
             return;
         }
+
+
+        if (IsTestScene == true)
+        {
+            GameFacade.Instance.SetPlayer(accountName);
+            return;
+        }
+        
         
         if (IsStartScence)
         {

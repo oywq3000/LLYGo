@@ -155,7 +155,7 @@ namespace Script.AssetFactory
 
                 _loadedAssetKeys.Remove(keyValuePair.Key);
             }
-
+            _disableObjects.Clear();
             //to confirm all loaded asset references are released
             foreach (var VARIABLE in _loadedAssetKeys)
             {

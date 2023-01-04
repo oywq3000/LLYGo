@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using _core.AcountInfo;
@@ -20,9 +21,10 @@ public class ModifyPanel : AbstractUIPanel
     private bool _nameCf = true;
     private AccountInfo _originInfo;
 
-    public override void OnOpen()
+
+    private void Start()
     {
-        RefreshPanel();
+         RefreshPanel();
 
         //register event
         newName.onValueChanged.AddListener(value =>
@@ -108,6 +110,13 @@ public class ModifyPanel : AbstractUIPanel
                     
                     CloseSelf();
                 }
+                else
+                {
+                    //only account duplicated the effectedRow is zero in this case
+                    var openPanel = GameFacade.Instance.GetInstance<IUIkit>().OpenPanel("Tips");
+                    openPanel.GetComponent<Text>().text = "用户名重复！";
+                    openPanel.GetComponent<Tips>().SetColorOnce(Color.red);
+                }
                 
             }
             else
@@ -120,6 +129,11 @@ public class ModifyPanel : AbstractUIPanel
         });
 
         returnBtn.onClick.AddListener(CloseSelf);
+    }
+
+    public override void OnOpen()
+    {
+       
     }
 
     protected override void Onclose()
